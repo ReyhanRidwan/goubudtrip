@@ -161,7 +161,7 @@ export default function TourCatalog({ onBookNow, onViewDetails, onCustomizeTour 
                       {lang === 'en' ? 'From' : 'Mulai'}
                     </span>
                     <span className="font-mono text-base font-bold text-white">
-                      {formatPrice(exp.pricePerPerson, exp.currency || 'IDR')}
+                      {formatPrice(exp.pricePerPerson, exp.currency || 'USD')}
                     </span>
                     <span className="text-[9px] text-stone-200 font-light block -mt-0.5">
                       /orang

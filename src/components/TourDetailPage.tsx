@@ -122,7 +122,7 @@ export default function TourDetailPage({
   }, [lightboxIndex, galleryImages.length]);
 
   const maxPeople = experience.maxPeople || 12;
-  const currency = experience.currency || 'IDR';
+  const currency = experience.currency || 'USD';
   const activeUnitPrice = getTierPricePerPerson(experience, guests, false);
   const totalPrice = activeUnitPrice * guests;
 

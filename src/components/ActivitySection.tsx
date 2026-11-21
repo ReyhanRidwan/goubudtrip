@@ -180,7 +180,7 @@ export default function ActivitySection({ onBookNow, onViewDetails }: ActivitySe
                     {lang === 'en' ? 'From' : 'Mulai'}
                   </p>
                   <p className="font-mono text-lg font-bold text-white">
-                    {formatPrice(activity.pricePerPerson, activity.currency || 'IDR')}{' '}
+                    {formatPrice(activity.pricePerPerson, activity.currency || 'USD')}{' '}
                     <span className="text-[10px] font-normal text-stone-200">/orang</span>
                   </p>
                 </div>

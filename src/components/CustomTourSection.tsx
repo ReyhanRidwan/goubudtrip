@@ -42,7 +42,7 @@ interface DurationOption {
   labelId: string;
   hoursEn: string;
   hoursId: string;
-  basePriceIdr: number;
+  basePriceUsd: number;
   recommendedStops: number;
 }
 
@@ -52,14 +52,14 @@ interface VehicleOption {
   labelId: string;
   capacityEn: string;
   capacityId: string;
-  addonPriceIdr: number;
+  addonPriceUsd: number;
 }
 
 interface CustomAddonOption {
   id: string;
   labelEn: string;
   labelId: string;
-  priceIdr: number;
+  priceUsd: number;
 }
 
 const SPOT_OPTIONS: SpotOption[] = [
@@ -201,7 +201,7 @@ const DURATION_OPTIONS: DurationOption[] = [
     labelId: 'Half Day Tour',
     hoursEn: '4–5 Hours Private Charter',
     hoursId: 'Tur Privat 4–5 Jam',
-    basePriceIdr: 550000,
+    basePriceUsd: 35,
     recommendedStops: 3,
   },
   {
@@ -210,7 +210,7 @@ const DURATION_OPTIONS: DurationOption[] = [
     labelId: 'Full Day Tour',
     hoursEn: '8–10 Hours Private Charter',
     hoursId: 'Tur Privat 8–10 Jam',
-    basePriceIdr: 750000,
+    basePriceUsd: 48,
     recommendedStops: 5,
   },
   {
@@ -219,7 +219,7 @@ const DURATION_OPTIONS: DurationOption[] = [
     labelId: 'Full Day Ekstra',
     hoursEn: 'Up to 12 Hours Private Charter',
     hoursId: 'Tur Privat Hingga 12 Jam',
-    basePriceIdr: 950000,
+    basePriceUsd: 60,
     recommendedStops: 7,
   },
 ];
@@ -231,7 +231,7 @@ const VEHICLE_OPTIONS: VehicleOption[] = [
     labelId: 'MPV Privat Nyaman',
     capacityEn: 'Avanza / Xpander • Max 5 Guests',
     capacityId: 'Avanza / Xpander • Maks. 5 Orang',
-    addonPriceIdr: 0,
+    addonPriceUsd: 0,
   },
   {
     id: 'innova',
@@ -239,7 +239,7 @@ const VEHICLE_OPTIONS: VehicleOption[] = [
     labelId: 'VIP Toyota Innova Reborn',
     capacityEn: 'Luxury Cabin • Max 6 Guests',
     capacityId: 'Kabin Mewah • Maks. 6 Orang',
-    addonPriceIdr: 350000,
+    addonPriceUsd: 22,
   },
   {
     id: 'hiace',
@@ -247,7 +247,7 @@ const VEHICLE_OPTIONS: VehicleOption[] = [
     labelId: 'Toyota Hiace Rombongan',
     capacityEn: 'Minibus • Max 14 Guests',
     capacityId: 'Minibus • Maks. 14 Orang',
-    addonPriceIdr: 750000,
+    addonPriceUsd: 48,
   },
 ];
 
@@ -256,19 +256,19 @@ const CUSTOM_ADDONS: CustomAddonOption[] = [
     id: 'licensed-guide',
     labelEn: 'Licensed English-Speaking Tour Guide',
     labelId: 'Pemandu Wisata Berlisensi (Inggris/ID)',
-    priceIdr: 300000,
+    priceUsd: 19,
   },
   {
     id: 'private-photographer',
     labelEn: 'Private Travel Photographer (50+ Photos)',
     labelId: 'Fotografer Perjalanan Pribadi (50+ Foto)',
-    priceIdr: 750000,
+    priceUsd: 48,
   },
   {
     id: 'drone-4k',
     labelEn: 'Cinematic 4K Drone Highlight',
     labelId: 'Video Drone Sinematik 4K',
-    priceIdr: 950000,
+    priceUsd: 60,
   },
 ];
 
@@ -313,9 +313,9 @@ export default function CustomTourSection({
     VEHICLE_OPTIONS.find((v) => v.id === vehicleId) || VEHICLE_OPTIONS[0];
   const selectedAddons = CUSTOM_ADDONS.filter((a) => selectedAddonIds.includes(a.id));
 
-  const addonsTotalIdr = selectedAddons.reduce((sum, a) => sum + a.priceIdr, 0);
-  const estimatedTotalIdr =
-    selectedDuration.basePriceIdr + selectedVehicle.addonPriceIdr + addonsTotalIdr;
+  const addonsTotalUsd = selectedAddons.reduce((sum, a) => sum + a.priceUsd, 0);
+  const estimatedTotalUsd =
+    selectedDuration.basePriceUsd + selectedVehicle.addonPriceUsd + addonsTotalUsd;
 
   const getSpotName = (spotId: string) => {
     const found = SPOT_OPTIONS.find((s) => s.id === spotId);
@@ -434,9 +434,9 @@ export default function CustomTourSection({
         : '- Fleksibel (Diskusi dengan Driver)';
 
     const addonsList = selectedAddons.map(
-      (a) => `${lang === 'en' ? a.labelEn : a.labelId} (+${formatPrice(a.priceIdr, 'IDR')})`
+      (a) => `${lang === 'en' ? a.labelEn : a.labelId} (+${formatPrice(a.priceUsd, 'USD')})`
     );
-    const formattedTotal = formatPrice(estimatedTotalIdr, 'IDR');
+    const formattedTotal = formatPrice(estimatedTotalUsd, 'USD');
     const durationTitle = lang === 'en' ? selectedDuration.labelEn : selectedDuration.labelId;
     const vehicleTitle = lang === 'en' ? selectedVehicle.labelEn : selectedVehicle.labelId;
 
@@ -594,8 +594,8 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
         ...addonsList,
       ],
       specialNotes: `Route: ${routeLabels}${notes.trim() ? ` | Notes: ${notes.trim()}` : ''}`,
-      totalPrice: estimatedTotalIdr,
-      currency: 'IDR',
+      totalPrice: estimatedTotalUsd,
+      currency: 'USD',
       submittedAt: new Date().toISOString(),
       emailSubject,
       emailBody,
@@ -653,8 +653,8 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
           </h2>
           <p className="font-sans text-xs md:text-sm text-stone-600 leading-relaxed mt-4 max-w-2xl mx-auto">
             {lang === 'en'
-              ? 'Mix and match your favorite Bali Ubud temples, emerald rice terraces, hidden waterfalls, jungle swings, ATV tracks, or Balinese spa sessions. Choose your trip duration and private vehicle, see an instant IDR estimate, and send your custom Ubud route directly to our concierge.'
-              : 'Bebas kombinasikan destinasi terbaik Bali Ubud—pura suci, terasering sawah, air terjun tersembunyi, jungle swing, ATV, rafting, hingga spa. Pilih durasi serta mobil privatnya, lihat estimasi harga IDR secara langsung, lalu kirim rute custom Ubud Anda ke tim kami.'}
+              ? 'Mix and match your favorite Bali Ubud temples, emerald rice terraces, hidden waterfalls, jungle swings, ATV tracks, or Balinese spa sessions. Choose your trip duration and private vehicle, see an instant USD estimate, and send your custom Ubud route directly to our concierge.'
+              : 'Bebas kombinasikan destinasi terbaik Bali Ubud—pura suci, terasering sawah, air terjun tersembunyi, jungle swing, ATV, rafting, hingga spa. Pilih durasi serta mobil privatnya, lihat estimasi harga USD secara langsung, lalu kirim rute custom Ubud Anda ke tim kami.'}
           </p>
         </div>
 
@@ -853,7 +853,7 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
                           {lang === 'en' ? opt.hoursEn : opt.hoursId}
                         </p>
                         <p className="font-mono text-xs text-gold-700 font-bold mt-2">
-                          {formatPrice(opt.basePriceIdr, 'IDR')}
+                          {formatPrice(opt.basePriceUsd, 'USD')}
                         </p>
                       </button>
                     );
@@ -888,11 +888,11 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
                           {lang === 'en' ? veh.capacityEn : veh.capacityId}
                         </p>
                         <p className="font-mono text-xs text-gold-700 font-bold mt-2">
-                          {veh.addonPriceIdr === 0
+                          {veh.addonPriceUsd === 0
                             ? lang === 'en'
                               ? 'Included'
                               : 'Sudah Termasuk'
-                            : `+${formatPrice(veh.addonPriceIdr, 'IDR')}`}
+                            : `+${formatPrice(veh.addonPriceUsd, 'USD')}`}
                         </p>
                       </button>
                     );
@@ -935,7 +935,7 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
                           </span>
                         </div>
                         <span className="font-mono text-[11px] text-gold-700 font-bold mt-2">
-                          +{formatPrice(addon.priceIdr, 'IDR')}
+                          +{formatPrice(addon.priceUsd, 'USD')}
                         </span>
                       </button>
                     );
@@ -1191,7 +1191,7 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
               )}
             </div>
 
-            {/* IDR Price Breakdown */}
+            {/* USD Price Breakdown */}
             <div className="bg-[#FAF7F2] border border-stone-200 rounded-lg p-4 space-y-2.5">
               <div className="flex items-center justify-between text-xs text-stone-700">
                 <span>
@@ -1199,18 +1199,18 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
                   {lang === 'en' ? 'Private Car + Driver + Fuel' : 'Mobil Privat + Driver + BBM'})
                 </span>
                 <span className="font-mono font-semibold text-stone-900">
-                  {formatPrice(selectedDuration.basePriceIdr, 'IDR')}
+                  {formatPrice(selectedDuration.basePriceUsd, 'USD')}
                 </span>
               </div>
 
               <div className="flex items-center justify-between text-xs text-stone-700">
                 <span>{lang === 'en' ? selectedVehicle.labelEn : selectedVehicle.labelId}</span>
                 <span className="font-mono font-semibold text-stone-900">
-                  {selectedVehicle.addonPriceIdr === 0
+                  {selectedVehicle.addonPriceUsd === 0
                     ? lang === 'en'
                       ? 'Included'
                       : 'Gratis'
-                    : formatPrice(selectedVehicle.addonPriceIdr, 'IDR')}
+                    : formatPrice(selectedVehicle.addonPriceUsd, 'USD')}
                 </span>
               </div>
 
@@ -1218,7 +1218,7 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
                 <div key={addon.id} className="flex items-center justify-between text-xs text-stone-700">
                   <span>{lang === 'en' ? addon.labelEn : addon.labelId}</span>
                   <span className="font-mono font-semibold text-stone-900">
-                    +{formatPrice(addon.priceIdr, 'IDR')}
+                    +{formatPrice(addon.priceUsd, 'USD')}
                   </span>
                 </div>
               ))}
@@ -1229,11 +1229,11 @@ Halo Tim ${BRAND.name}, saya ingin mengajukan paket tour custom di atas dan mena
                     {lang === 'en' ? 'Estimated Base Rate' : 'Estimasi Tarif Dasar'}
                   </span>
                   <span className="font-sans text-[10px] text-stone-500">
-                    {lang === 'en' ? `For ${guests} Orang • Net Charter Rate` : `Untuk ${guests} Orang • Tarif Dasar IDR`}
+                    {lang === 'en' ? `For ${guests} Orang • Net Charter Rate (USD)` : `Untuk ${guests} Orang • Tarif Dasar USD`}
                   </span>
                 </div>
                 <span className="font-mono text-2xl font-bold text-gold-700">
-                  {formatPrice(estimatedTotalIdr, 'IDR')}
+                  {formatPrice(estimatedTotalUsd, 'USD')}
                 </span>
               </div>
 

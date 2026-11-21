@@ -123,7 +123,7 @@ export default function ExperienceDetails({ onBookNow, onViewDetails }: Experien
                         {lang === 'en' ? 'From' : 'Mulai'}
                       </span>
                       <span className="font-mono text-lg md:text-xl font-bold text-gold-700">
-                        {formatPrice(exp.pricePerPerson, exp.currency || 'IDR')}
+                        {formatPrice(exp.pricePerPerson, exp.currency || 'USD')}
                       </span>
                       <span className="text-[10px] text-stone-500 font-normal">
                         {' '}/orang

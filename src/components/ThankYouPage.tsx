@@ -219,7 +219,7 @@ export default function ThankYouPage({
                 {lang === 'en' ? 'Net Total (Incl. Tax)' : 'Total Bersih (Incl. Pajak)'}
               </span>
               <span className="text-2xl font-bold text-gold-700">
-                {formatPrice(booking.totalPrice, booking.currency || 'IDR')}
+                {formatPrice(booking.totalPrice, booking.currency || 'USD')}
               </span>
             </div>
           </div>

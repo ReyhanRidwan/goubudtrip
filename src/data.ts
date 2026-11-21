@@ -1,14 +1,14 @@
 import { Experience, BookingAddon, Review, Vehicle } from './types';
 import { Language } from './i18n';
 
-export function formatPrice(amount: number, currency: 'IDR' | 'USD' = 'IDR'): string {
+export function formatPrice(amount: number, currency: 'IDR' | 'USD' = 'USD'): string {
   if (currency === 'USD') {
     return `USD ${amount.toLocaleString('en-US')}`;
   }
   return `Rp ${Math.round(amount).toLocaleString('id-ID')}`;
 }
 
-export function getAddonPrice(addon: BookingAddon, currency: 'IDR' | 'USD' = 'IDR'): number {
+export function getAddonPrice(addon: BookingAddon, currency: 'IDR' | 'USD' = 'USD'): number {
   if (currency === 'USD') {
     return addon.priceUsd ?? Math.max(1, Math.round(addon.price / 16000));
   }
@@ -62,11 +62,11 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085408/7b52b661-2049-406d-adef-27a2f4516ea0.png',
     cardImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085408/7b52b661-2049-406d-adef-27a2f4516ea0.png',
-    pricePerPerson: 950000,
-    currency: 'IDR',
+    pricePerPerson: 60,
+    currency: 'USD',
     discountTiers: [
-      { minPersons: 2, maxPersons: 6, adultPrice: 800000, childrenPrice: 800000 },
-      { minPersons: 7, maxPersons: 12, adultPrice: 700000, childrenPrice: 700000 },
+      { minPersons: 2, maxPersons: 6, adultPrice: 50, childrenPrice: 50 },
+      { minPersons: 7, maxPersons: 12, adultPrice: 44, childrenPrice: 44 },
     ],
     duration: '1 day',
     location: 'Blue Lagoon, Jepun & Hidden Waterfalls',
@@ -138,12 +138,12 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085422/66388523-59c7-411b-b2a6-ff1c1080200a.png',
     cardImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085422/66388523-59c7-411b-b2a6-ff1c1080200a.png',
-    pricePerPerson: 1500000,
-    currency: 'IDR',
+    pricePerPerson: 95,
+    currency: 'USD',
     discountTiers: [
-      { minPersons: 1, maxPersons: 1, adultPrice: 1500000, childrenPrice: 1500000 },
-      { minPersons: 2, maxPersons: 6, adultPrice: 1200000, childrenPrice: 1200000 },
-      { minPersons: 7, maxPersons: 12, adultPrice: 1000000, childrenPrice: 1000000 },
+      { minPersons: 1, maxPersons: 1, adultPrice: 95, childrenPrice: 95 },
+      { minPersons: 2, maxPersons: 6, adultPrice: 75, childrenPrice: 75 },
+      { minPersons: 7, maxPersons: 12, adultPrice: 63, childrenPrice: 63 },
     ],
     duration: '1 day',
     location: 'Ubud Village & Best Ubud Spa',
@@ -224,11 +224,11 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085479/0a831e48-bfaf-4416-9ea4-7a0cc49b98f0.png',
     cardImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085479/0a831e48-bfaf-4416-9ea4-7a0cc49b98f0.png',
-    pricePerPerson: 1200000,
-    currency: 'IDR',
+    pricePerPerson: 75,
+    currency: 'USD',
     discountTiers: [
-      { minPersons: 2, maxPersons: 6, adultPrice: 900000, childrenPrice: 900000 },
-      { minPersons: 7, maxPersons: 12, adultPrice: 800000, childrenPrice: 800000 },
+      { minPersons: 2, maxPersons: 6, adultPrice: 56, childrenPrice: 56 },
+      { minPersons: 7, maxPersons: 12, adultPrice: 50, childrenPrice: 50 },
     ],
     duration: '1 day',
     location: 'Mount Batur & Tegalalang, Ubud',
@@ -304,8 +304,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795162357/30b47c4d-eecc-4f2f-bc63-f7e7c4b5348b.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795162393/b3f3dfa4-0fef-4ab4-8006-433dae24dde6.png',
     ],
-    pricePerPerson: 950000,
-    currency: 'IDR',
+    pricePerPerson: 60,
+    currency: 'USD',
     duration: '1 day',
     location: 'Tibumana, Kanto Lampo, Tegalalang & Ubud',
     difficulty: 'Easy / Sightseeing & Photography',
@@ -384,8 +384,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795163744/532b45c4-3378-41c6-a098-449556419fc4.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795163762/8456c43b-a7b0-426f-9f19-84e767831204.png',
     ],
-    pricePerPerson: 560000,
-    currency: 'IDR',
+    pricePerPerson: 35,
+    currency: 'USD',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -462,8 +462,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164236/68147218-7062-4aa3-bc9a-a2740be81d94.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164265/3ae5e650-ad31-4549-a478-77fec634e853.png',
     ],
-    pricePerPerson: 720000,
-    currency: 'IDR',
+    pricePerPerson: 45,
+    currency: 'USD',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -527,7 +527,7 @@ export const EXPERIENCES: Experience[] = [
     longDesc:
       'If you’re looking for an adrenaline packed day in Bali then Jumping Sliding at Aling- Aling Waterfall one of the best waterfalls in Bali, here’s why. Challenge yourself by sliding through the waterfall with an provided sliding board. Afterward, direct to the next gorgeous waterfalls of Kroya, Kembar, Pucuk and Aling Aling Waterfall. Spend 8 hours visiting, enjoy 2 hours the best nature of waterfall also can rush your adrenaline with cliff jumping and sliding Including Lunch at beautiful view heading to instagramable handara gate and our last stop at coffee plantation for observed how balinese people make coffee by traditional way.',
     tourNote:
-      'For single traveler will be added additional charge IDR 400K will be paid on the day of the tour',
+      'For single traveler will be added additional charge USD 25 will be paid on the day of the tour',
     bgImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164500/a32092e2-026e-41df-a6b7-eb15b0d54df3.png',
     cardImage:
@@ -536,8 +536,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164500/a32092e2-026e-41df-a6b7-eb15b0d54df3.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164533/bcef8053-1432-4d85-ba1f-d20f9687ad21.png',
     ],
-    pricePerPerson: 700000,
-    currency: 'IDR',
+    pricePerPerson: 44,
+    currency: 'USD',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -613,8 +613,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164645/6891ca5e-738a-4df3-9dea-defdfb13acc2.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164676/308b013b-5ab7-4c26-af73-b6f076232206.png',
     ],
-    pricePerPerson: 370000,
-    currency: 'IDR',
+    pricePerPerson: 24,
+    currency: 'USD',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -691,8 +691,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165210/ea7b8534-8d39-4124-b18c-f147d21519e6.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165217/928310f3-ae81-4749-ac19-9ba6d8a18e83.png',
     ],
-    pricePerPerson: 1200000,
-    currency: 'IDR',
+    pricePerPerson: 75,
+    currency: 'USD',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -767,8 +767,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165670/805c6556-85d0-4a17-9ab1-07ab711f5b45.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164265/3ae5e650-ad31-4549-a478-77fec634e853.png',
     ],
-    pricePerPerson: 880000,
-    currency: 'IDR',
+    pricePerPerson: 55,
+    currency: 'USD',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -842,8 +842,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165877/b5ed250c-876d-4f3d-8f68-c1a76918fd1b.png',
     cardImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165877/b5ed250c-876d-4f3d-8f68-c1a76918fd1b.png',
-    pricePerPerson: 720000,
-    currency: 'IDR',
+    pricePerPerson: 45,
+    currency: 'USD',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -917,8 +917,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172245/174aae57-a651-481f-bd37-53bfb3ada380.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172267/b24e558f-fd07-4ff8-9bc9-de0cbc2619d0.png',
     ],
-    pricePerPerson: 1000000,
-    currency: 'IDR',
+    pricePerPerson: 63,
+    currency: 'USD',
     duration: 'Half Day (4-5 hours)',
     isHalfDay: true,
     tourType: 'Open Trip',
@@ -1029,8 +1029,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172676/8b4adc64-40a6-40c2-a902-ac043fa8031f.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172679/c6408579-0509-4431-b15a-53fbdef59b54.png',
     ],
-    pricePerPerson: 870000,
-    currency: 'IDR',
+    pricePerPerson: 55,
+    currency: 'USD',
     duration: 'Half Day (4-5 hours)',
     isHalfDay: true,
     tourType: 'Open Trip',
@@ -1122,8 +1122,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172900/09b5ace9-1629-49c3-9e5c-80b6d068ad87.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172904/a501e706-3f84-4eb8-bf53-7c9a63870443.png',
     ],
-    pricePerPerson: 970000,
-    currency: 'IDR',
+    pricePerPerson: 61,
+    currency: 'USD',
     duration: 'Half Day (3 Laps)',
     isHalfDay: true,
     tourType: 'Open Trip',
@@ -1227,8 +1227,8 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173147/00f50a12-ac99-4b5d-acb2-1e0a6766f485.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173152/9bb672ca-3392-41be-97cc-fd736a8274e4.png',
     ],
-    pricePerPerson: 280000,
-    currency: 'IDR',
+    pricePerPerson: 18,
+    currency: 'USD',
     duration: '9 hours',
     tourType: 'Private Trip',
     groupSize: 'Private',
@@ -1712,7 +1712,7 @@ export const EXPERIENCES_ID: Experience[] = [
     longDesc:
       'Jika Anda mencari hari penuh adrenalin di Bali, Jumping & Sliding di Air Terjun Aling-Aling adalah pilihan terbaik. Tantang diri Anda meluncur di air terjun dengan papan luncur khusus dan lanjutkan ke air terjun indah lainnya: Kroya, Kembar, Pucuk, dan Aling-Aling selama 2 jam penuh.\n\nSetelah itu nikmati makan siang dengan pemandangan menawan, berfoto di gerbang ikonik Handara Gate, serta singgah di perkebunan kopi tradisional Bali sebelum kembali.',
     tourNote:
-      'Untuk peserta tunggal (single traveler) dikenakan biaya tambahan IDR 400K yang dibayarkan pada hari tur.',
+      'Untuk peserta tunggal (single traveler) dikenakan biaya tambahan USD 25 yang dibayarkan pada hari tur.',
     duration: '8 jam',
     tourType: 'Tur Harian',
     groupSize: 'Tanpa Batas (Unlimited)',

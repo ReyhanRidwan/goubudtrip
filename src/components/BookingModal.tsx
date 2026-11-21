@@ -80,7 +80,7 @@ export default function BookingModal({
   if (!isOpen) return null;
 
   const currentExp = experiences.find((e) => e.id === selectedExpId) || experiences[0];
-  const currency = currentExp.currency || 'IDR';
+  const currency = currentExp.currency || 'USD';
   const maxPeople = currentExp.maxPeople || 12;
 
   const activeUnitPrice = getTierPricePerPerson(currentExp, guests, false);
@@ -345,7 +345,7 @@ Halo Tim ${BRAND.name}, saya ingin mengonfirmasi ketersediaan dan pemesanan untu
                   >
                     {experiences.map((exp) => (
                       <option key={exp.id} value={exp.id}>
-                        {exp.title} — {formatPrice(exp.pricePerPerson, exp.currency || 'IDR')}/orang
+                        {exp.title} — {formatPrice(exp.pricePerPerson, exp.currency || 'USD')}/orang
                       </option>
                     ))}
                   </select>
