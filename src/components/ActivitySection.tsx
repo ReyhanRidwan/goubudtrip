@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, MapPin, Clock, ArrowRight, Shield, Star, Award, Waves, Utensils, Mountain, Camera } from 'lucide-react';
-import { getFullDayUbudExperiences, formatPrice } from '../data';
+import { getUbudExperiences, formatPrice } from '../data';
 import { useLanguage } from '../i18n';
 import TourImageSlider from './TourImageSlider';
 
@@ -12,9 +12,12 @@ interface ActivitySectionProps {
 
 export default function ActivitySection({ onBookNow, onViewDetails }: ActivitySectionProps) {
   const { lang } = useLanguage();
-  const experiences = getFullDayUbudExperiences(lang);
+  const experiences = getUbudExperiences(lang).filter(
+    (exp) => !exp.isHalfDay || exp.id === 'half-day-bali-temple-waterfall-terraces'
+  );
 
   const activities = experiences.map((exp) => {
+    const isHalfDayFeatured = exp.id === 'half-day-bali-temple-waterfall-terraces';
     const isSnorkeling = exp.id === 'snorkeling-waterfall';
     const isWaterSports = exp.id === 'water-sports-uluwatu-temple';
     const isRafting = exp.id === 'white-water-rafting-monkey-forest';
@@ -31,7 +34,11 @@ export default function ActivitySection({ onBookNow, onViewDetails }: ActivitySe
     const isSwingSpa = exp.id === 'bali-swing-spa-transport';
     return {
       ...exp,
-      badge: isSnorkeling
+      badge: isHalfDayFeatured
+        ? lang === 'en'
+          ? 'Featured • Half Day'
+          : 'Unggulan • Half Day'
+        : isSnorkeling
         ? lang === 'en'
           ? 'Best Seller'
           : 'Terlaris'
@@ -321,9 +328,9 @@ export default function ActivitySection({ onBookNow, onViewDetails }: ActivitySe
             </p>
           </div>
           <div className="text-center p-3 md:border-l border-stone-200">
-            <p className="font-mono text-gold-700 text-lg font-bold">GROUP DEALS</p>
+            <p className="font-mono text-gold-700 text-lg font-bold">LOCAL HOST</p>
             <p className="font-sans text-[11px] text-stone-600 mt-1">
-              {lang === 'en' ? 'Global Discount Up to 12 Guests' : 'Diskon Grup Hingga 12 Orang'}
+              {lang === 'en' ? 'Experienced Balinese Local Drivers' : 'Driver & Host Lokal Ubud Berpengalaman'}
             </p>
           </div>
           <div className="text-center p-3 md:border-l border-stone-200">

@@ -17,17 +17,9 @@ export function getAddonPrice(addon: BookingAddon, currency: 'IDR' | 'USD' = 'US
 
 export function getTierPricePerPerson(
   exp: Experience,
-  guests: number,
-  isChild = false
+  _guests: number,
+  _isChild = false
 ): number {
-  if (exp.discountTiers && exp.discountTiers.length > 0) {
-    const matched = exp.discountTiers.find(
-      (tier) => guests >= tier.minPersons && guests <= tier.maxPersons
-    );
-    if (matched) {
-      return isChild ? matched.childrenPrice : matched.adultPrice;
-    }
-  }
   return exp.pricePerPerson;
 }
 
@@ -37,7 +29,7 @@ const SHARED_TERMS_EN = [
   'Cancellation on Departure will be 100 % Charge.',
   'Full refund 48 hours before your departure',
   'Reasonable and fair price and that means no hidden charge',
-  'For Group booking, get special deals.',
+  'Private air-conditioned car and experienced local English-speaking driver.',
 ];
 
 const SHARED_TERMS_ID = [
@@ -46,10 +38,96 @@ const SHARED_TERMS_ID = [
   'Pembatalan pada hari keberangkatan dikenakan biaya 100%.',
   'Pengembalian dana penuh (100% refund) jika dibatalkan 48 jam sebelum keberangkatan.',
   'Harga wajar dan transparan tanpa biaya tersembunyi.',
-  'Untuk pemesanan grup besar tersedia penawaran harga spesial.',
+  'Mobil privat ber-AC penuh dengan driver lokal ramah berbahasa Inggris.',
 ];
 
 export const EXPERIENCES: Experience[] = [
+  {
+    id: 'half-day-bali-temple-waterfall-terraces',
+    category: 'culture',
+    isHalfDay: true,
+    title: 'Half Day Bali Tour',
+    tagline: 'Village Temple, Waterfall & Tegalalang',
+    shortDesc:
+      'Ideal for limited schedules—discover a historic village temple built in 944, stunning Tegenungan Waterfall, and lush Tegalalang Rice Terraces.',
+    longDesc:
+      'Half Day Bali Tour – This tour product is designed for our lovely customers who have limited time or do not want to spend all day long. This tour will take you to the highlight spots in Bali, showing you the Village Temple, Tegenungan Waterfall, and the beautiful Tegalalang Rice Terraces. Our focus is to make sure our customers have memorable experiences in a short day in Bali and bring unforgettable memories back home.',
+    bgImage:
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173152/9bb672ca-3392-41be-97cc-fd736a8274e4.png',
+    cardImage:
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173152/9bb672ca-3392-41be-97cc-fd736a8274e4.png',
+    images: [
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173152/9bb672ca-3392-41be-97cc-fd736a8274e4.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795162357/30b47c4d-eecc-4f2f-bc63-f7e7c4b5348b.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164645/6891ca5e-738a-4df3-9dea-defdfb13acc2.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173147/00f50a12-ac99-4b5d-acb2-1e0a6766f485.png',
+    ],
+    pricePerPerson: 25,
+    currency: 'USD',
+    duration: 'Half Day (4-5 hours)',
+    tourType: 'Private Trip',
+    groupSize: 'Private',
+    languages: 'English Speaking',
+    location: 'Village Temple, Tegenungan & Tegalalang',
+    difficulty: 'Easy / Culture & Nature',
+    maxPeople: 12,
+    minAge: 'All Ages',
+    pickupLabel: 'Location',
+    pickupTimes: ['08:00 AM', '09:00 AM', '01:00 PM'],
+    pickupLocations:
+      'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, and other parts of Bali.',
+    whatToBring: ['Comfortable shoes/sandals', 'Camera', 'Sunblock', 'Extra cash'],
+    featureBadges: [
+      'Best for limited time',
+      'Private AC car & local host',
+      'Exclude entrance tickets',
+    ],
+    relatedTitle: 'Ubud Jungle Swing & Balinese Spa',
+    relatedExperienceId: 'bali-swing-spa-transport',
+    termsAndConditions: SHARED_TERMS_EN,
+    rating: 4.9,
+    reviewCount: 168,
+    highlights: [
+      'Visit one of the oldest village temples in Bali built in 944 and learn authentic Balinese traditions',
+      'Capture panoramic waterfall photos at scenic Tegenungan Waterfall in Ubud',
+      'Stroll along the iconic green Tegalalang Rice Terraces & traditional Subak irrigation',
+      'Private air-conditioned car with an experienced, warm local Balinese host',
+    ],
+    inclusions: [
+      'Private tour with fully air-conditioned car',
+      'Friendly local Balinese English-speaking driver/host',
+      'Mineral water',
+      'Parking fees & fuel',
+      'Sarong for temple visit',
+    ],
+    exclusions: [
+      'Entrance tickets (Village Temple, Tegenungan Waterfall & Tegalalang Rice Terraces)',
+      'Meals & personal expenses',
+      'Voluntary gratuities',
+    ],
+    itinerary: [
+      {
+        time: '#1',
+        title: 'Village Temple',
+        desc: 'Visiting one of the oldest village temples in Bali predicted to have been built in 944, where we learn more about the tradition, culture, and Balinese way of life.',
+      },
+      {
+        time: '#2',
+        title: 'Tegenungan Waterfall',
+        desc: 'The best waterfall in Ubud with a stunning view and great surrounding landscape where you can get the best picture spots.',
+      },
+      {
+        time: '#3',
+        title: 'Rice Terraces of Tegalalang',
+        desc: 'Natural landscape featuring the beauty of the countryside and unique Subak irrigation system—connect with peaceful nature.',
+      },
+      {
+        time: '#4',
+        title: 'Back Hotel',
+        desc: 'Relax inside your private air-conditioned vehicle for the comfortable return drop-off to your hotel.',
+      },
+    ],
+  },
   {
     id: 'snorkeling-waterfall',
     title: 'Snorkeling & Hidden Waterfalls Tour',
@@ -62,12 +140,15 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085408/7b52b661-2049-406d-adef-27a2f4516ea0.png',
     cardImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085408/7b52b661-2049-406d-adef-27a2f4516ea0.png',
+    images: [
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085408/7b52b661-2049-406d-adef-27a2f4516ea0.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273432/66378fb7-3b1d-4bde-aaa8-4baa80adf78b.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273483/05d8a22b-4ae2-401f-8cb8-9ebc1428f862.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273535/cc8f5707-3256-4e01-9e25-bd3d4a3dd71f.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273538/327f6b59-391d-4f30-9dc4-38f3aaf79b90.png',
+    ],
     pricePerPerson: 60,
     currency: 'USD',
-    discountTiers: [
-      { minPersons: 2, maxPersons: 6, adultPrice: 50, childrenPrice: 50 },
-      { minPersons: 7, maxPersons: 12, adultPrice: 44, childrenPrice: 44 },
-    ],
     duration: '1 day',
     location: 'Blue Lagoon, Jepun & Hidden Waterfalls',
     difficulty: 'All Ages / Fun Adventure',
@@ -138,13 +219,14 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085422/66388523-59c7-411b-b2a6-ff1c1080200a.png',
     cardImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085422/66388523-59c7-411b-b2a6-ff1c1080200a.png',
+    images: [
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085422/66388523-59c7-411b-b2a6-ff1c1080200a.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164265/3ae5e650-ad31-4549-a478-77fec634e853.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273296/d3e70d94-f8de-4b68-b0ee-ca1f081df4be.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273300/f8d7606f-d916-4954-9c4b-4bdcc7ea4f98.png',
+    ],
     pricePerPerson: 95,
     currency: 'USD',
-    discountTiers: [
-      { minPersons: 1, maxPersons: 1, adultPrice: 95, childrenPrice: 95 },
-      { minPersons: 2, maxPersons: 6, adultPrice: 75, childrenPrice: 75 },
-      { minPersons: 7, maxPersons: 12, adultPrice: 63, childrenPrice: 63 },
-    ],
     duration: '1 day',
     location: 'Ubud Village & Best Ubud Spa',
     difficulty: 'Easy / Cultural & Wellness',
@@ -224,12 +306,14 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085479/0a831e48-bfaf-4416-9ea4-7a0cc49b98f0.png',
     cardImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085479/0a831e48-bfaf-4416-9ea4-7a0cc49b98f0.png',
+    images: [
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795085479/0a831e48-bfaf-4416-9ea4-7a0cc49b98f0.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273642/f63747c7-beda-4008-9741-df5158e30e28.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273649/7da0325f-3abf-440b-b8e4-a9e082b3ab42.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273652/df23ff59-3753-4447-8187-bfb90495e921.png',
+    ],
     pricePerPerson: 75,
     currency: 'USD',
-    discountTiers: [
-      { minPersons: 2, maxPersons: 6, adultPrice: 56, childrenPrice: 56 },
-      { minPersons: 7, maxPersons: 12, adultPrice: 50, childrenPrice: 50 },
-    ],
     duration: '1 day',
     location: 'Mount Batur & Tegalalang, Ubud',
     difficulty: 'Moderate / Sunrise Summit Trek',
@@ -303,6 +387,8 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795162357/30b47c4d-eecc-4f2f-bc63-f7e7c4b5348b.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795162393/b3f3dfa4-0fef-4ab4-8006-433dae24dde6.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273767/9c534976-e77e-499a-bab9-5e9a933f1e72.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273771/7c761736-148e-4cc1-8f52-e31cc1c573de.png',
     ],
     pricePerPerson: 60,
     currency: 'USD',
@@ -383,6 +469,8 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795163744/532b45c4-3378-41c6-a098-449556419fc4.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795163762/8456c43b-a7b0-426f-9f19-84e767831204.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273896/6c7f1856-a911-408f-9a0b-f5401aad10d8.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273904/fd263ee8-1f4b-404a-a22d-2d99d22c9b6c.png',
     ],
     pricePerPerson: 35,
     currency: 'USD',
@@ -461,6 +549,7 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164224/dba9a562-fc7e-4657-9927-126b3daec054.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164236/68147218-7062-4aa3-bc9a-a2740be81d94.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164265/3ae5e650-ad31-4549-a478-77fec634e853.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274009/97ab54c8-9913-4fc4-8fe2-7f09f42c166d.png',
     ],
     pricePerPerson: 45,
     currency: 'USD',
@@ -535,6 +624,8 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164500/a32092e2-026e-41df-a6b7-eb15b0d54df3.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164533/bcef8053-1432-4d85-ba1f-d20f9687ad21.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274105/4ce2284c-6abe-451c-8ac2-bac000d8ab50.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274123/7cf4336d-1b95-4138-b5cc-084f418eb893.png',
     ],
     pricePerPerson: 44,
     currency: 'USD',
@@ -612,6 +703,8 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164645/6891ca5e-738a-4df3-9dea-defdfb13acc2.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164676/308b013b-5ab7-4c26-af73-b6f076232206.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274274/46b26062-eab1-42e7-87fc-03541f5aff07.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274286/7fed5a23-3571-49bb-99dd-916eb4f86faf.png',
     ],
     pricePerPerson: 24,
     currency: 'USD',
@@ -690,6 +783,7 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165199/c71fa872-5200-47b3-8e3b-d0f212e2a895.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165210/ea7b8534-8d39-4124-b18c-f147d21519e6.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165217/928310f3-ae81-4749-ac19-9ba6d8a18e83.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274371/833c31e1-8ddc-46a5-bb82-04723cb0bc6c.png',
     ],
     pricePerPerson: 75,
     currency: 'USD',
@@ -766,6 +860,8 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165670/805c6556-85d0-4a17-9ab1-07ab711f5b45.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164265/3ae5e650-ad31-4549-a478-77fec634e853.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274478/8ed6ff73-ac80-4c7e-a306-7e9924e49c1f.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274515/18b338a2-d618-487c-b3e1-266d3497ed97.png',
     ],
     pricePerPerson: 55,
     currency: 'USD',
@@ -842,6 +938,12 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165877/b5ed250c-876d-4f3d-8f68-c1a76918fd1b.png',
     cardImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165877/b5ed250c-876d-4f3d-8f68-c1a76918fd1b.png',
+    images: [
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165877/b5ed250c-876d-4f3d-8f68-c1a76918fd1b.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274608/0fb8a0ad-97ee-499d-9648-9bda4cf039b0.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274622/2a463ab8-fec6-4090-834b-8eeb05ffc1f6.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273767/9c534976-e77e-499a-bab9-5e9a933f1e72.png',
+    ],
     pricePerPerson: 45,
     currency: 'USD',
     duration: '8 hours',
@@ -916,6 +1018,8 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172245/174aae57-a651-481f-bd37-53bfb3ada380.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172267/b24e558f-fd07-4ff8-9bc9-de0cbc2619d0.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274728/05cd1969-51f0-424d-85bd-13dcdd6d3dc9.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274715/e6999088-16ae-4515-b645-53955ade33c7.png',
     ],
     pricePerPerson: 63,
     currency: 'USD',
@@ -1028,6 +1132,8 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172676/8b4adc64-40a6-40c2-a902-ac043fa8031f.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172679/c6408579-0509-4431-b15a-53fbdef59b54.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274874/70a1d106-82f9-458b-af75-153c6ab2480e.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274928/8b7e2c5e-78ff-405a-932f-d96082c8f33c.png',
     ],
     pricePerPerson: 55,
     currency: 'USD',
@@ -1121,6 +1227,8 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172900/09b5ace9-1629-49c3-9e5c-80b6d068ad87.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172904/a501e706-3f84-4eb8-bf53-7c9a63870443.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274928/8b7e2c5e-78ff-405a-932f-d96082c8f33c.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795275002/74f74ccf-999f-440b-bb3a-66e8c077638b.png',
     ],
     pricePerPerson: 61,
     currency: 'USD',
@@ -1216,9 +1324,9 @@ export const EXPERIENCES: Experience[] = [
     title: 'Ubud Waterfall, Culture & Crafts Tour',
     tagline: 'Private Trip • Tegenungan, Celuk & Terraces',
     shortDesc:
-      'A 9-hour private Ubud journey with a live English-speaking guide visiting Tegenungan Waterfall, Celuk silver village, Goa Gajah cave, Monkey Forest, Tegalalang Rice Terraces & Luwak Coffee.',
+      'An 8-hour private Ubud journey with a live English-speaking guide visiting Tegenungan Waterfall, Celuk silver village, Goa Gajah cave, Monkey Forest, Tegalalang Rice Terraces & Luwak Coffee.',
     longDesc:
-      'Embark on an extraordinary full-day adventure, unraveling the very essence of Ubud. This thoughtfully designed tour seamlessly blends cultural immersion with the awe-inspiring beauty of Bali’s landscapes. You’ll begin by witnessing a powerful natural waterfall, then immerse yourself in the intricate world of traditional Balinese craftsmanship.\n\nDelve into the island’s ancient past at a sacred cave and enjoy playful encounters in a mystical forest. The journey continues with breathtaking views of iconic rice terraces, before concluding with a unique taste of local flavors. This comprehensive tour promises genuine experiences, leaving you with cherished memories and a deeper connection to the magic of Bali.',
+      'Embark on an extraordinary 8-hour private adventure, unraveling the very essence of Ubud. This thoughtfully designed tour seamlessly blends cultural immersion with the awe-inspiring beauty of Bali’s landscapes. You’ll begin by witnessing a powerful natural waterfall, then immerse yourself in the intricate world of traditional Balinese craftsmanship.\n\nDelve into the island’s ancient past at a sacred cave and enjoy playful encounters in a mystical forest. The journey continues with breathtaking views of iconic rice terraces, before concluding with a unique taste of local flavors. This comprehensive tour promises genuine experiences, leaving you with cherished memories and a deeper connection to the magic of Bali.',
     bgImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173147/00f50a12-ac99-4b5d-acb2-1e0a6766f485.png',
     cardImage:
@@ -1226,10 +1334,12 @@ export const EXPERIENCES: Experience[] = [
     images: [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173147/00f50a12-ac99-4b5d-acb2-1e0a6766f485.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173152/9bb672ca-3392-41be-97cc-fd736a8274e4.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795275060/d46fc671-3975-4dfb-8b86-52270df84cb8.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795275064/a0c8907c-5720-4bac-9a9c-b89a4020c57f.png',
     ],
     pricePerPerson: 18,
     currency: 'USD',
-    duration: '9 hours',
+    duration: '8 hours',
     tourType: 'Private Trip',
     groupSize: 'Private',
     languages: 'English Speaking',
@@ -1244,11 +1354,11 @@ export const EXPERIENCES: Experience[] = [
     featureBadges: [
       'Best price guaranty',
       'Private trip',
-      '9 hours’ duration',
+      '8 hours’ duration',
       'Live tour guide (English speaking)',
     ],
     whatToExpect:
-      'Step into the enchanting world of Ubud with our meticulously designed full-day tour. This isn’t just a trip; it’s an intimate and comprehensive experience that promises to immerse you in Bali’s rich artistic heritage, spiritual depths, and stunning natural landscapes. We’ve curated a journey that perfectly blends iconic landmarks with authentic local encounters, ensuring every moment is filled with discovery and wonder.\n\nThe reasons why this package is the perfect for you:\n• Immersive Cultural & Artistic Discovery: Dive deep into Bali’s vibrant soul as you witness generations of craftsmanship in Celuk Village and explore the profound spiritual history of Goa Gajah. You’ll gain a true appreciation for the island’s artistic and historical legacy.\n• Iconic Natural Beauty & Engaging Wildlife: Marvel at the powerful rush of Tegenungan Waterfall and capture breathtaking photos amidst the terraced beauty of Tegalalang Rice Terraces. Plus, enjoy the unique thrill of interacting with playful macaques in their natural, sacred habitat.\n• Unique Balinese Flavors & Local Insights: Conclude your day with a fascinating visit to a Luwak Coffee Plantation, where you’ll not only learn about one of the world’s most unique coffee-making processes but also savor a delightful array of local teas and coffees.',
+      'Step into the enchanting world of Ubud with our meticulously designed 8-hour private tour. This isn’t just a trip; it’s an intimate and comprehensive experience that promises to immerse you in Bali’s rich artistic heritage, spiritual depths, and stunning natural landscapes. We’ve curated a journey that perfectly blends iconic landmarks with authentic local encounters, ensuring every moment is filled with discovery and wonder.\n\nThe reasons why this package is the perfect for you:\n• Immersive Cultural & Artistic Discovery: Dive deep into Bali’s vibrant soul as you witness generations of craftsmanship in Celuk Village and explore the profound spiritual history of Goa Gajah. You’ll gain a true appreciation for the island’s artistic and historical legacy.\n• Iconic Natural Beauty & Engaging Wildlife: Marvel at the powerful rush of Tegenungan Waterfall and capture breathtaking photos amidst the terraced beauty of Tegalalang Rice Terraces. Plus, enjoy the unique thrill of interacting with playful macaques in their natural, sacred habitat.\n• Unique Balinese Flavors & Local Insights: Conclude your day with a fascinating visit to a Luwak Coffee Plantation, where you’ll not only learn about one of the world’s most unique coffee-making processes but also savor a delightful array of local teas and coffees.',
     whatToBring: [
       'Comfortable shoes/sandals',
       'Sun screen',
@@ -1289,49 +1399,49 @@ export const EXPERIENCES: Experience[] = [
         desc: 'Your private, air-conditioned vehicle and friendly local driver will greet you at your accommodation.',
       },
       {
-        time: '09:30 AM',
+        time: '09:15 AM',
         title: 'Tegenungan Waterfall',
         desc: 'Immerse yourself in the beauty of this powerful cascade; take stunning photos or simply enjoy the refreshing atmosphere.',
       },
       {
-        time: '10:45 AM',
+        time: '10:15 AM',
         title: 'Celuk Village',
         desc: 'Witness the intricate art of silver and gold crafting firsthand and explore exquisite local artworks.',
       },
       {
-        time: '12:00 PM',
+        time: '11:15 AM',
         title: 'Goa Gajah (Elephant Cave)',
         desc: 'Delve into the history and spiritual aura of this fascinating ancient cave temple and its surroundings.',
       },
       {
-        time: '01:00 PM',
+        time: '12:15 PM',
         title: 'Lunch Break',
         desc: 'Enjoy a delicious local lunch at a recommended restaurant (at your own expense), savoring authentic Balinese flavors.',
       },
       {
-        time: '02:00 PM',
+        time: '01:15 PM',
         title: 'Sacred Monkey Forest Sanctuary',
         desc: 'Delight in observing the playful macaques as they roam freely amidst ancient temple grounds and lush forest.',
       },
       {
-        time: '03:30 PM',
+        time: '02:30 PM',
         title: 'Tegalalang Rice Terraces',
         desc: 'Capture breathtaking photos of the world-famous terraced rice paddies, a testament to Bali’s unique irrigation system.',
       },
       {
-        time: '04:30 PM',
+        time: '03:15 PM',
         title: 'Luwak Coffee Plantation',
         desc: 'Embark on a unique sensory journey; learn about the famed Luwak coffee production and enjoy complimentary tastings of various Balinese teas and coffees.',
       },
       {
-        time: '05:30 PM',
+        time: '04:00 PM',
         title: 'Return Transfer',
-        desc: 'Begin your comfortable journey back to your hotel, reflecting on a day full of discoveries.',
+        desc: 'Begin your comfortable journey back to your hotel, reflecting on an 8-hour day full of discoveries.',
       },
       {
-        time: '06:30 PM',
+        time: '04:30 PM',
         title: 'Hotel Drop-off',
-        desc: 'Arrive back at your accommodation, refreshed and filled with incredible memories of Ubud’s wonders.',
+        desc: 'Arrive back at your accommodation after a smooth 8-hour journey, refreshed and filled with memories of Ubud.',
       },
     ],
   },
@@ -1340,6 +1450,71 @@ export const EXPERIENCES: Experience[] = [
 export const EXPERIENCES_ID: Experience[] = [
   {
     ...EXPERIENCES[0],
+    tagline: 'Pura Desa Kuno, Air Terjun & Tegalalang',
+    shortDesc:
+      'Pilihan tepat bagi Anda dengan waktu terbatas—kunjungi pura desa tertua di Bali tahun 944, Air Terjun Tegenungan yang memukau, dan Terasering Sawah Tegalalang.',
+    longDesc:
+      'Half Day Bali Tour – Paket tur setengah hari yang dirancang khusus bagi tamu kami yang memiliki waktu terbatas atau tidak ingin menghabiskan seharian penuh di perjalanan. Tur ini akan membawa Anda ke spot-spot unggulan Bali mulai dari Pura Desa kuno, Air Terjun Tegenungan, hingga keindahan Terasering Sawah Tegalalang dengan pengalaman hangat yang tak terlupakan.',
+    duration: 'Setengah Hari (4-5 jam)',
+    tourType: 'Tur Privat',
+    groupSize: 'Privat',
+    languages: 'Inggris / Indonesia',
+    location: 'Pura Desa, Tegenungan & Tegalalang',
+    difficulty: 'Santai / Budaya & Alam',
+    minAge: 'Semua Usia',
+    pickupLabel: 'Lokasi Hotel',
+    pickupLocations:
+      'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
+    whatToBring: ['Sepatu / sandal nyaman', 'Kamera', 'Sunblock', 'Uang tunai tambahan'],
+    featureBadges: [
+      'Cocok untuk waktu terbatas',
+      'Mobil AC privat & host lokal',
+      'Exclude tiket masuk',
+    ],
+    termsAndConditions: SHARED_TERMS_ID,
+    highlights: [
+      'Mengunjungi salah satu pura desa tertua di Bali (dibangun tahun 944) dan mengenal tradisi lokal Bali',
+      'Berfoto dengan latar pemandangan indah Air Terjun Tegenungan di Ubud',
+      'Menikmati hamparan hijau Terasering Sawah Tegalalang dan sistem irigasi tradisional Subak',
+      'Didampingi mobil ber-AC privat dan host lokal Ubud yang ramah serta berpengalaman',
+    ],
+    inclusions: [
+      'Tur privat dengan mobil ber-AC penuh',
+      'Driver/host lokal Bali ramah berbahasa Inggris',
+      'Air mineral',
+      'Biaya parkir & BBM',
+      'Kain sarung untuk kunjungan pura',
+    ],
+    exclusions: [
+      'Tiket masuk objek wisata (Pura Desa, Air Terjun Tegenungan & Terasering Sawah Tegalalang)',
+      'Makan & pengeluaran pribadi',
+      'Tip sukarela untuk driver',
+    ],
+    itinerary: [
+      {
+        time: '#1',
+        title: 'Pura Desa Kuno (Village Temple)',
+        desc: 'Mengunjungi salah satu pura desa tertua di Bali yang diperkirakan berdiri sejak tahun 944 untuk mengenal tradisi, budaya, serta kehidupan masyarakat Bali.',
+      },
+      {
+        time: '#2',
+        title: 'Air Terjun Tegenungan',
+        desc: 'Menyambangi air terjun terbaik di kawasan Ubud dengan pemandangan alam megah dan berbagai spot foto indah.',
+      },
+      {
+        time: '#3',
+        title: 'Terasering Sawah Tegalalang',
+        desc: 'Menikmati panorama alam pedesaan Bali dengan sistem irigasi Subak yang unik dan menyatu dengan ketenangan alam.',
+      },
+      {
+        time: '#4',
+        title: 'Kembali ke Hotel',
+        desc: 'Perjalanan pulang yang nyaman menuju hotel tempat Anda menginap dengan mobil privat ber-AC.',
+      },
+    ],
+  },
+  {
+    ...EXPERIENCES[1],
     tagline: 'Blue Lagoon & Air Terjun',
     shortDesc:
       'Jelajahi perairan biru jernih Bali Timur di Blue Lagoon & Jepun dengan perahu tradisional, nikmati makan siang, dan kunjungi Air Terjun Kanto Lampo & Tibumana.',
@@ -1398,7 +1573,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[1],
+    ...EXPERIENCES[2],
     tagline: 'Kelas Memasak & Spa Ubud',
     shortDesc:
       'Kunjungi pasar tradisional Ubud, ikuti kelas memasak autentik Bali di rumah penduduk lokal, nikmati makan siang hasil masakan Anda, lalu relaksasi pijat 1 jam di Ubud.',
@@ -1467,7 +1642,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[2],
+    ...EXPERIENCES[3],
     tagline: 'Trekking Sunrise & Terasering Sawah',
     shortDesc:
       'Daki puncak Gunung Batur sebelum fajar bersama pemandu lokal profesional, nikmati minuman hangat & sarapan di kawah, lalu segarkan pikiran di Terasering Sawah Tegalalang Ubud.',
@@ -1527,7 +1702,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[3],
+    ...EXPERIENCES[4],
     tagline: 'Air Terjun, Terasering & Pasar Ubud',
     shortDesc:
       'Abadikan keindahan Air Terjun Tibumana & Kanto Lampo secara privat tanpa terburu-buru, nikmati Tegalalang Rice Terrace, Monkey Forest Ubud, dan Pasar Seni Ubud.',
@@ -1590,7 +1765,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[4],
+    ...EXPERIENCES[5],
     tagline: 'Air Terjun, Hutan Sangeh & Pura',
     shortDesc:
       'Kunjungi Air Terjun Nungnung setinggi 70 meter di tengah pulau Bali, sapa sekitar 600 monyet ekor panjang di Sangeh Monkey Forest, dan jelajahi Pura Kerajaan Taman Ayun.',
@@ -1650,7 +1825,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[5],
+    ...EXPERIENCES[6],
     tagline: 'Bali Swing, Spa 1 Jam & Makan Siang',
     shortDesc:
       'Rasakan sensasi ayunan indah di atas hutan & terasering sawah Ubud yang Instagramable, nikmati pijat spa Bali selama satu jam, serta makan siang dengan waktu fleksibel.',
@@ -1705,7 +1880,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[6],
+    ...EXPERIENCES[7],
     tagline: 'Air Terjun Aling-Aling & Handara Gate',
     shortDesc:
       'Pacu adrenalin meluncur & melompat tebing di Air Terjun Kroya, Kembar, Pucuk & Aling-Aling selama 2 jam, nikmati makan siang berlatar indah, foto di Handara Gate, dan wisata kopi.',
@@ -1767,7 +1942,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[7],
+    ...EXPERIENCES[8],
     tagline: 'Monkey Forest, Tirta Empul & Swing',
     shortDesc:
       'Jelajahi jantung budaya Ubud di Monkey Forest (~800 kera) & Puri Ubud, nikmati panorama Tegalalang Rice Terrace serta Jungle Swing, dan rasakan ritual penyucian Tirta Empul.',
@@ -1827,7 +2002,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[8],
+    ...EXPERIENCES[9],
     tagline: 'Water Sports & Pura Uluwatu',
     shortDesc:
       'Berangkat pukul 09.00 pagi menuju Tanjung Benoa Nusa Dua untuk keseruan banana boat, jet ski, parasailing & donut boat, dilanjutkan mengunjungi Pura Uluwatu abad ke-11.',
@@ -1885,7 +2060,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[9],
+    ...EXPERIENCES[10],
     tagline: 'Aktivitas • ATV, Makan Siang & Spa',
     shortDesc:
       'Jelajahi pedesaan Bali dengan ATV Quad Bike selama 2 jam ditemani instruktur profesional, nikmati makan siang buffet, dan tutup dengan pijat spa satu jam.',
@@ -1946,7 +2121,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[10],
+    ...EXPERIENCES[11],
     tagline: 'Aktivitas • Rafting & Monkey Forest',
     shortDesc:
       'Nikmati 2 jam arung jeram (rafting) di Sungai Ayung Ubud melewati hutan asri & air terjun, makan siang buffet berlatar sawah, dan kunjungi Monkey Forest Ubud (~800 ekor kera).',
@@ -2003,7 +2178,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[11],
+    ...EXPERIENCES[12],
     tagline: 'Aktivitas • ATV Hutan & Trek Lumpur Ubud',
     shortDesc:
       'Taklukkan trek ATV terpanjang di Bali melewati jalur hutan, hutan bambu, turunan lembah 45 derajat, pedesaan tradisional, hingga zona lumpur seru di Ubud.',
@@ -2096,7 +2271,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[12],
+    ...EXPERIENCES[13],
     tagline: 'Tegallalang • Ayunan & Spot Foto',
     shortDesc:
       'Terbang di atas kanopi hijau Tegallalang setinggi 200 meter dengan 5 tipe ayunan, 2 sarang burung ikonik, spot batu besar sawah, serta antar-jemput mobil AC.',
@@ -2170,7 +2345,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[13],
+    ...EXPERIENCES[14],
     tagline: 'Aktivitas • Off-Road Jungle Buggy',
     shortDesc:
       'Kemudikan Polaris Buggy kelas atas di sirkuit hutan privat sepanjang 4,5 km (3 putaran) lengkap dengan makan siang lezat, perlengkapan keselamatan, dan antar-jemput privat.',
@@ -2256,13 +2431,13 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
   },
   {
-    ...EXPERIENCES[14],
+    ...EXPERIENCES[15],
     tagline: 'Tur Privat • Tegenungan, Celuk & Sawah',
     shortDesc:
-      'Petualangan privat 9 jam di Ubud bersama pemandu lokal berbahasa Inggris ke Air Terjun Tegenungan, Desa Celuk, Goa Gajah, Monkey Forest, Terasering Tegalalang & Perkebunan Kopi Luwak.',
+      'Petualangan privat 8 jam di Ubud bersama pemandu lokal berbahasa Inggris ke Air Terjun Tegenungan, Desa Celuk, Goa Gajah, Monkey Forest, Terasering Tegalalang & Perkebunan Kopi Luwak.',
     longDesc:
-      'Nikmati petualangan sehari penuh yang memadukan kekayaan budaya Bali dengan keindahan alam Ubud. Anda akan mengawalinya dengan menyambangi air terjun alami yang megah, menyaksikan langsung keahlian pengrajin perak & emas tradisional di Desa Celuk, menelusuri situs purbakala Goa Gajah, berinteraksi di Sacred Monkey Forest, menikmati panorama Terasering Sawah Tegalalang, serta mencicipi cita rasa kopi dan teh khas Bali.',
-    duration: '9 jam',
+      'Nikmati petualangan privat selama 8 jam yang memadukan kekayaan budaya Bali dengan keindahan alam Ubud. Anda akan mengawalinya dengan menyambangi air terjun alami yang megah, menyaksikan langsung keahlian pengrajin perak & emas tradisional di Desa Celuk, menelusuri situs purbakala Goa Gajah, berinteraksi di Sacred Monkey Forest, menikmati panorama Terasering Sawah Tegalalang, serta mencicipi cita rasa kopi dan teh khas Bali.',
+    duration: '8 jam',
     tourType: 'Tur Privat',
     groupSize: 'Privat',
     languages: 'Berbahasa Inggris / Indonesia',
@@ -2274,11 +2449,11 @@ export const EXPERIENCES_ID: Experience[] = [
     featureBadges: [
       'Jaminan harga terbaik',
       'Tur privat',
-      'Durasi 9 jam',
+      'Durasi 8 jam',
       'Pemandu wisata langsung (Inggris)',
     ],
     whatToExpect:
-      'Masuki pesona autentik Ubud melalui tur sehari penuh yang dirancang khusus untuk membawa Anda menyusuri warisan seni, nilai spiritual, dan lanskap alam terbaik Bali.\n\nAlasan paket ini sangat tepat untuk Anda:\n• Eksplorasi Budaya & Seni Mendalam: Menyaksikan langsung seni kerajinan perak dan emas turun-temurun di Desa Celuk serta sejarah spiritual Goa Gajah.\n• Keindahan Alam & Satwa Ikonik: Menyegarkan diri di Air Terjun Tegenungan, berfoto di Terasering Sawah Tegalalang, dan melihat kera ekor panjang di Monkey Forest.\n• Cita Rasa Lokal Bali: Menutup perjalanan di Perkebunan Kopi Luwak dengan mencicipi gratis berbagai kopi dan teh herbal khas Bali.',
+      'Masuki pesona autentik Ubud melalui tur privat 8 jam yang dirancang khusus untuk membawa Anda menyusuri warisan seni, nilai spiritual, dan lanskap alam terbaik Bali.\n\nAlasan paket ini sangat tepat untuk Anda:\n• Eksplorasi Budaya & Seni Mendalam: Menyaksikan langsung seni kerajinan perak dan emas turun-temurun di Desa Celuk serta sejarah spiritual Goa Gajah.\n• Keindahan Alam & Satwa Ikonik: Menyegarkan diri di Air Terjun Tegenungan, berfoto di Terasering Sawah Tegalalang, dan melihat kera ekor panjang di Monkey Forest.\n• Cita Rasa Lokal Bali: Menutup perjalanan di Perkebunan Kopi Luwak dengan mencicipi gratis berbagai kopi dan teh herbal khas Bali.',
     whatToBring: [
       'Sepatu / sandal yang nyaman',
       'Sunscreen / tabir surya',
@@ -2315,49 +2490,49 @@ export const EXPERIENCES_ID: Experience[] = [
         desc: 'Mobil privat ber-AC penuh dan driver lokal ramah menyambut Anda di hotel tempat menginap.',
       },
       {
-        time: '09:30 AM',
+        time: '09:15 AM',
         title: 'Air Terjun Tegenungan',
         desc: 'Menikmati keindahan derasnya air terjun Tegenungan untuk berfoto dan bersantai di udara segar.',
       },
       {
-        time: '10:45 AM',
+        time: '10:15 AM',
         title: 'Desa Celuk',
         desc: 'Melihat langsung proses pembuatan kerajinan perhiasan perak dan emas khas Bali.',
       },
       {
-        time: '12:00 PM',
+        time: '11:15 AM',
         title: 'Goa Gajah (Elephant Cave)',
         desc: 'Menelusuri sejarah dan aura spiritual pura gua kuno Goa Gajah serta kawasan sekitarnya.',
       },
       {
-        time: '01:00 PM',
+        time: '12:15 PM',
         title: 'Istirahat Makan Siang',
         desc: 'Menikmati makan siang lezat di restoran pilihan yang direkomendasikan (biaya pribadi).',
       },
       {
-        time: '02:00 PM',
+        time: '01:15 PM',
         title: 'Sacred Monkey Forest Sanctuary',
         desc: 'Mengamati monyet ekor panjang yang hidup bebas di kawasan hutan suaka dan kompleks pura kuno.',
       },
       {
-        time: '03:30 PM',
+        time: '02:30 PM',
         title: 'Terasering Sawah Tegalalang',
         desc: 'Mengabadikan foto indah hamparan sawah terasering hijau yang mendunia.',
       },
       {
-        time: '04:30 PM',
+        time: '03:15 PM',
         title: 'Perkebunan Kopi Luwak',
         desc: 'Mengenal proses pengolahan kopi Luwak sekaligus mencicipi gratis berbagai pilihan kopi dan teh Bali.',
       },
       {
-        time: '05:30 PM',
+        time: '04:00 PM',
         title: 'Perjalanan Kembali',
-        desc: 'Memulai perjalanan pulang yang nyaman kembali menuju hotel Anda.',
+        desc: 'Memulai perjalanan pulang yang nyaman setelah rangkaian tur 8 jam kembali menuju hotel Anda.',
       },
       {
-        time: '06:30 PM',
+        time: '04:30 PM',
         title: 'Tiba di Hotel',
-        desc: 'Tiba kembali di akomodasi Anda dengan kenangan tak terlupakan dari Ubud.',
+        desc: 'Tiba kembali di akomodasi Anda setelah perjalanan 8 jam dengan kenangan tak terlupakan dari Ubud.',
       },
     ],
   },
@@ -2454,7 +2629,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     date: '2026-05-19',
     comment:
-      'Everything was super transparent with zero hidden charges. Our family group of 8 also got the group discount rate automatically!',
+      'Everything was super transparent with zero hidden charges, and our family group of 8 loved the private comfort throughout the day.',
     experienceId: 'cooking-class-massage',
     verified: true,
   },
@@ -2584,7 +2759,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     date: '2026-10-02',
     comment:
-      'Everything from Tegenungan Waterfall and Celuk silver artisans to Goa Gajah, Monkey Forest, Tegalalang Rice Terraces, and Luwak coffee tasting ran right on schedule. Incredible value for a private 9-hour tour!',
+      'Everything from Tegenungan Waterfall and Celuk silver artisans to Goa Gajah, Monkey Forest, Tegalalang Rice Terraces, and Luwak coffee tasting ran right on schedule. Incredible value for a private 8-hour tour!',
     experienceId: 'ubud-ultimate-culture-crafts-cascades',
     verified: true,
   },
@@ -2627,7 +2802,7 @@ export const INITIAL_REVIEWS_ID: Review[] = [
     rating: 5,
     date: '2026-05-19',
     comment:
-      'Semuanya benar-benar transparan tanpa biaya tersembunyi. Rombongan keluarga kami ber-8 juga langsung mendapatkan tarif diskon grup!',
+      'Semuanya benar-benar transparan tanpa biaya tersembunyi. Rombongan keluarga kami ber-8 sangat menikmati perjalanan privat sepanjang hari.',
     experienceId: 'cooking-class-massage',
     verified: true,
   },
@@ -2757,7 +2932,7 @@ export const INITIAL_REVIEWS_ID: Review[] = [
     rating: 5,
     date: '2026-10-02',
     comment:
-      'Mulai dari Air Terjun Tegenungan, pengrajin perak Desa Celuk, Goa Gajah, Monkey Forest, Terasering Tegalalang hingga cicip kopi Luwak berjalan tepat waktu dan sangat nyaman untuk tur privat 9 jam!',
+      'Mulai dari Air Terjun Tegenungan, pengrajin perak Desa Celuk, Goa Gajah, Monkey Forest, Terasering Tegalalang hingga cicip kopi Luwak berjalan tepat waktu dan sangat nyaman untuk tur privat 8 jam!',
     experienceId: 'ubud-ultimate-culture-crafts-cascades',
     verified: true,
   },
@@ -2770,9 +2945,9 @@ export const FAQS = [
       'Yes. Every booking with GoUbudTrip is 100% private. Your car, English-speaking driver, and tour schedule are dedicated exclusively to your party.',
   },
   {
-    question: 'How does the Global Discount group pricing work?',
+    question: 'Are attraction entrance tickets included in the tour price?',
     answer:
-      'Our tour packages automatically apply lower per-person rates as your group size increases (for example 2–6 guests or 7–12 guests), with Net pricing already including government tax.',
+      'All package rates exclude entrance tickets so you enjoy flexible sightseeing and transparent Net pricing in USD without hidden markups.',
   },
   {
     question: 'Can vegetarian or dietary preferences be accommodated?',
@@ -2798,9 +2973,9 @@ export const FAQS_ID = [
       'Ya. Setiap pemesanan di GoUbudTrip 100% privat. Mobil ber-AC penuh, driver berbahasa Inggris, dan jadwal perjalanan didedikasikan khusus untuk rombongan Anda.',
   },
   {
-    question: 'Bagaimana sistem harga Global Discount untuk rombongan?',
+    question: 'Apakah harga paket sudah termasuk tiket masuk objek wisata?',
     answer:
-      'Harga per orang otomatis lebih hemat sesuai jumlah peserta (misalnya 2–6 orang atau 7–12 orang), dan seluruh harga sudah Net termasuk pajak pemerintah.',
+      'Semua paket kami bersifat exclude tiket masuk (tidak termasuk tiket masuk destinasi) sehingga harga Net dalam USD lebih transparan dan fleksibel tanpa biaya tersembunyi.',
   },
   {
     question: 'Apakah tersedia pilihan makanan vegetarian?',
@@ -2964,6 +3139,7 @@ export const VEHICLES_ID: Vehicle[] = [
 ];
 
 export const UBUD_EXPERIENCE_IDS = new Set<string>([
+  'half-day-bali-temple-waterfall-terraces',
   'cooking-class-massage',
   'ubud-waterfalls-monkey-market',
   'bali-swing-spa-transport',
@@ -2977,6 +3153,7 @@ export const UBUD_EXPERIENCE_IDS = new Set<string>([
 ]);
 
 export const HERO_EXPERIENCE_IDS = new Set<string>([
+  'half-day-bali-temple-waterfall-terraces',
   'bali-swing-spa-transport',
   'ubud-iconic-tirta-empul-swing',
   'white-water-rafting-monkey-forest',

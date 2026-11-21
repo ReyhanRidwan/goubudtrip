@@ -55,6 +55,9 @@ export default function HeroSection({
   }, [activeIndex, setActiveIndex, experiences.length]);
 
   const getCardTag = (exp: Experience) => {
+    if (exp.id === 'half-day-bali-temple-waterfall-terraces') {
+      return lang === 'en' ? 'Half Day • Temple & Tegalalang' : 'Half Day • Pura & Tegalalang';
+    }
     if (exp.id === 'snorkeling-waterfall') {
       return lang === 'en' ? 'Snorkeling & Waterfall' : 'Snorkeling & Air Terjun';
     }

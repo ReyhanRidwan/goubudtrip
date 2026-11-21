@@ -658,50 +658,6 @@ Mohon konfirmasi ketersediaan jadwal tersebut. Terima kasih!`;
               </div>
             )}
 
-            {/* Global Discount Table */}
-            {experience.discountTiers && experience.discountTiers.length > 0 && (
-              <div className="space-y-4" id="global-discount-section">
-                <h3 className="font-serif text-xl md:text-2xl text-stone-900 font-medium">
-                  {lang === 'en' ? 'Global Discount' : 'Diskon Grup (Global Discount)'}
-                </h3>
-                <div className="overflow-x-auto bg-white border border-stone-200 rounded-lg shadow-sm">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-stone-200 bg-[#F3EDE2]">
-                        <th className="py-3.5 px-5 font-mono text-xs uppercase tracking-wider text-stone-800 font-semibold">
-                          {lang === 'en' ? 'Min - Max (Persons)' : 'Min - Maks (Orang)'}
-                        </th>
-                        <th className="py-3.5 px-5 font-mono text-xs uppercase tracking-wider text-stone-800 font-semibold">
-                          {lang === 'en' ? 'Adult Price' : 'Harga Dewasa'}
-                        </th>
-                        <th className="py-3.5 px-5 font-mono text-xs uppercase tracking-wider text-stone-800 font-semibold">
-                          {lang === 'en' ? 'Children Price' : 'Harga Anak'}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-stone-200 font-mono text-sm">
-                      {experience.discountTiers.map((tier, idx) => (
-                        <tr
-                          key={idx}
-                          className="hover:bg-gold-50/70 transition-colors"
-                        >
-                          <td className="py-3.5 px-5 text-stone-900 font-semibold">
-                            {tier.minPersons} - {tier.maxPersons}
-                          </td>
-                          <td className="py-3.5 px-5 text-gold-700 font-bold">
-                            {formatPrice(tier.adultPrice, currency)}
-                          </td>
-                          <td className="py-3.5 px-5 text-gold-700 font-bold">
-                            {formatPrice(tier.childrenPrice, currency)}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
             {/* Pick up Times */}
             <div className="space-y-3">
               <h3 className="font-serif text-xl md:text-2xl text-stone-900 font-medium">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { ArrowRight, Compass, HeartHandshake, Landmark } from 'lucide-react';
 import { useLanguage } from '../i18n';
 
 interface CuratedPhotoItem {
@@ -14,7 +15,11 @@ interface CuratedPhotoItem {
   heightClass: string;
 }
 
-export default function DestinationGrid() {
+interface DestinationGridProps {
+  onLearnMoreAbout?: () => void;
+}
+
+export default function DestinationGrid({ onLearnMoreAbout }: DestinationGridProps) {
   const { lang } = useLanguage();
 
   const curatedDestinations: CuratedPhotoItem[] = [
@@ -56,32 +61,129 @@ export default function DestinationGrid() {
     },
   ];
 
+  const pillars = [
+    {
+      icon: Landmark,
+      title: lang === 'en' ? '100% Local Balinese Hosts' : '100% Host Asli Bali',
+      desc:
+        lang === 'en'
+          ? 'Born and raised in Ubud, sharing deep cultural knowledge'
+          : 'Lahir dan besar di Ubud dengan pemahaman budaya yang mendalam',
+    },
+    {
+      icon: Compass,
+      title: lang === 'en' ? 'Tailored Private Itineraries' : 'Itinerary Privat Sesuai Keinginan',
+      desc:
+        lang === 'en'
+          ? 'Custom-crafted journeys built around your travel list'
+          : 'Rute perjalanan fleksibel yang disesuaikan dengan daftar wisata Anda',
+    },
+    {
+      icon: HeartHandshake,
+      title: lang === 'en' ? 'Warm & Sincere Hospitality' : 'Pelayanan Hangat & Tulus',
+      desc:
+        lang === 'en'
+          ? 'Authentic care and joyful companionship throughout Bali'
+          : 'Keramahan penuh senyum dan pendampingan tulus di seluruh Bali',
+    },
+  ];
+
   return (
     <section
       id="exclusive-destinations"
       className="py-20 px-4 md:px-8 bg-[#F3EDE2] border-t border-b border-stone-200"
     >
       <div className="max-w-7xl mx-auto">
-        {/* Section Title */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-8 h-[1px] bg-gold-600" />
-              <span className="font-mono text-xs uppercase tracking-[0.25em] text-gold-700 font-bold">
-                {lang === 'en' ? 'Bespoke Curations' : 'Kurasi Eksklusif'}
-              </span>
-            </div>
-            <h2 className="font-serif text-3xl md:text-5xl text-stone-900 font-medium tracking-wide">
+        {/* Top Main Headline */}
+        <div className="mb-10 pb-8 border-b border-stone-300/60">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-8 h-[1px] bg-gold-600" />
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-gold-700 font-bold">
               {lang === 'en'
-                ? 'Explore Bali Ubud’s Iconic Destinations'
-                : 'Eksplorasi Destinasi Ikonik Bali Ubud'}
-            </h2>
+                ? 'Welcome to Wonderful Bali Island, Indonesia'
+                : 'Selamat Datang di Pulau Bali, Indonesia'}
+            </span>
           </div>
-          <p className="max-w-md text-stone-600 text-sm font-sans leading-relaxed">
+          <h2 className="font-serif text-3xl md:text-5xl text-stone-900 font-medium tracking-wide">
             {lang === 'en'
-              ? 'A handpicked visual showcase of Bali Ubud’s iconic jungle swings, sacred Tirta Empul purification springs, and lush hidden waterfalls.'
-              : 'Galeri visual pilihan destinasi terbaik Bali Ubud—dari ayunan hutan ikonik, mata air suci Tirta Empul, hingga keindahan air terjun tersembunyi.'}
-          </p>
+              ? 'Let’s Explore the Beauty of Bali With Us!'
+              : 'Mari Jelajahi Keindahan Bali Bersama Kami!'}
+          </h2>
+        </div>
+
+        {/* Two-Column Editorial Split Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start mb-14">
+          {/* Left Column: Story & CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-7 space-y-5"
+          >
+            <span className="block font-mono text-xs uppercase tracking-[0.22em] text-gold-700 font-semibold">
+              {lang === 'en' ? 'Authentic Balinese Hospitality' : 'Keramahan Autentik Bali'}
+            </span>
+
+            <h3 className="font-serif text-3xl md:text-4xl text-stone-900 font-medium leading-tight">
+              {lang === 'en'
+                ? 'Experience Bali Through the Eyes of a Local'
+                : 'Nikmati Keindahan Bali dari Sudut Pandang Warga Lokal'}
+            </h3>
+
+            <p className="text-stone-600 text-sm md:text-base font-sans leading-relaxed max-w-2xl">
+              {lang === 'en'
+                ? 'Welcome to wonderful Bali. Go Ubud Trip is a local tour company based in Ubud village, offering private driver and guide services tailored to your travel desires. Discover authentic Balinese culture, hidden gems, and natural beauty with friendly, experienced local hosts dedicated to your happiness and memorable experiences.'
+                : 'Selamat datang di Pulau Bali yang menakjubkan. Go Ubud Trip adalah perusahaan tur lokal yang berbasis di Desa Ubud, menawarkan layanan driver privat dan pemandu wisata sesuai keinginan liburan Anda. Temukan budaya autentik Bali, permata tersembunyi, dan keindahan alam bersama host lokal yang ramah serta tulus mengutamakan kebahagiaan perjalanan Anda.'}
+            </p>
+
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={onLearnMoreAbout}
+                className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full border border-gold-600/60 bg-transparent hover:bg-gold-600 text-stone-800 hover:text-white font-sans text-sm font-medium transition-all duration-300 cursor-pointer group"
+              >
+                <span>{lang === 'en' ? 'Learn More About Us' : 'Pelajari Tentang Kami'}</span>
+                <ArrowRight
+                  size={15}
+                  className="text-gold-700 group-hover:text-white group-hover:translate-x-1 transition-all"
+                />
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Right Column: 3 Hospitality Pillars */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="lg:col-span-5 divide-y divide-stone-300/70"
+          >
+            {pillars.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={idx}
+                  className={`flex items-start gap-4 ${
+                    idx === 0 ? 'pb-5' : idx === pillars.length - 1 ? 'pt-5' : 'py-5'
+                  }`}
+                >
+                  <div className="w-11 h-11 rounded-full bg-gold-500/10 border border-gold-600/25 flex items-center justify-center shrink-0 text-gold-700 mt-0.5">
+                    <Icon size={20} strokeWidth={1.6} />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-sans text-base font-semibold text-stone-900 leading-snug">
+                      {item.title}
+                    </h4>
+                    <p className="font-sans text-xs md:text-sm text-stone-600 leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
         </div>
 
         {/* Static Image-Focused Bento Grid (3 Items, Non-slider) */}

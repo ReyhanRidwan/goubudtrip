@@ -6,6 +6,7 @@ import ActivitySection from './components/ActivitySection';
 import ExperienceDetails from './components/ExperienceDetails';
 import GallerySection from './components/GallerySection';
 import ReviewsSection from './components/ReviewsSection';
+import TravelArticlesSection from './components/TravelArticlesSection';
 import Footer from './components/Footer';
 import BookingModal from './components/BookingModal';
 
@@ -174,8 +175,8 @@ function AppContent() {
               onViewDetails={handleViewDetails}
             />
 
-            {/* Bespoke Curations: 3 Static Ubud Destination Photos */}
-            <DestinationGrid />
+            {/* Welcome & Curated Ubud Destination Photos */}
+            <DestinationGrid onLearnMoreAbout={() => navigateTo('about')} />
 
             {/* Premium Outdoor Adventure & Wilderness Activities */}
             <ActivitySection
@@ -194,6 +195,9 @@ function AppContent() {
 
             {/* Testimonials Review section */}
             <ReviewsSection />
+
+            {/* Bali Travel Articles at Bottom */}
+            <TravelArticlesSection />
           </div>
         )}
 
