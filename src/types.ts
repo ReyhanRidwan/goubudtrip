@@ -108,6 +108,9 @@ export interface Review {
   name: string;
   rating: number;
   date: string;
+  relativeDate?: string;
+  badgeLabel?: string;
+  source?: 'google' | 'direct';
   comment: string;
   experienceId: string;
   avatarUrl?: string;

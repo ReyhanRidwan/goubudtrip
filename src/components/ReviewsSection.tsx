@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Star, MessageSquare, Check, User, Award, X } from 'lucide-react';
+import { Star, MessageSquare, Check, User, Award, X, ExternalLink, MapPin } from 'lucide-react';
 import { Review } from '../types';
 import { getInitialReviews, getExperiences } from '../data';
-import { useLanguage } from '../i18n';
+import { BRAND, useLanguage } from '../i18n';
 
 export default function ReviewsSection() {
   const { lang } = useLanguage();
@@ -64,6 +64,9 @@ export default function ReviewsSection() {
   };
 
   const getExpLabel = (expId: string) => {
+    if (expId === 'custom-ubud-day-tour') {
+      return lang === 'en' ? 'Customized Ubud Day Tour' : 'Tur Privat Custom Ubud';
+    }
     const found = experiences.find((e) => e.id === expId);
     return found ? found.title : lang === 'en' ? 'Private Bali Expedition' : 'Ekspedisi Privat Bali';
   };
@@ -112,9 +115,19 @@ export default function ReviewsSection() {
               </div>
               <span className="font-mono text-[10px] text-stone-500 block pt-1">
                 {lang === 'en'
-                  ? `Based on ${totalReviews} private reviews`
-                  : `Berdasarkan ${totalReviews} ulasan privat`}
+                  ? `Based on ${totalReviews} Google Maps reviews`
+                  : `Berdasarkan ${totalReviews} ulasan Google Maps`}
               </span>
+              <a
+                href={BRAND.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold text-emerald-700 hover:text-emerald-800 pt-1 transition-colors"
+              >
+                <MapPin size={12} />
+                <span>{lang === 'en' ? 'View on Google Maps' : 'Lihat di Google Maps'}</span>
+                <ExternalLink size={11} />
+              </a>
             </div>
 
             {!isFormOpen && (
@@ -326,13 +339,18 @@ export default function ReviewsSection() {
                       <h4 className="font-serif text-sm font-semibold text-stone-900">
                         {r.name}
                       </h4>
+                      {r.badgeLabel && (
+                        <p className="font-mono text-[10px] text-stone-500 mt-0.5">
+                          {r.badgeLabel}
+                        </p>
+                      )}
                       <p className="font-mono text-[9px] text-gold-700 tracking-wider uppercase mt-0.5 font-semibold">
                         {getExpLabel(r.experienceId)}
                       </p>
                     </div>
                   </div>
 
-                  <div className="text-right">
+                  <div className="text-right shrink-0">
                     <div className="flex items-center space-x-1 text-gold-500 justify-end">
                       {[...Array(5)].map((_, idx) => (
                         <Star
@@ -343,24 +361,42 @@ export default function ReviewsSection() {
                       ))}
                     </div>
                     <span className="font-mono text-[9px] text-stone-500 block mt-1">
-                      {new Date(r.date).toLocaleDateString(lang === 'en' ? 'en-US' : 'id-ID', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
+                      {r.relativeDate ||
+                        new Date(r.date).toLocaleDateString(lang === 'en' ? 'en-US' : 'id-ID', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
                     </span>
                   </div>
                 </div>
 
-                <p className="font-sans text-xs md:text-sm text-stone-700 leading-relaxed italic">
+                <p className="font-sans text-xs md:text-sm text-stone-700 leading-relaxed">
                   "{r.comment}"
                 </p>
               </div>
 
               {r.verified && (
-                <div className="flex items-center space-x-1 text-[9px] uppercase tracking-wider font-mono text-emerald-700 font-semibold pt-4 border-t border-stone-200 mt-4">
-                  <Award size={10} className="stroke-[3]" />
-                  <span>{lang === 'en' ? 'Verified GoUbudTrip Booking' : 'Pemesanan Terverifikasi GoUbudTrip'}</span>
+                <div className="flex items-center justify-between pt-4 border-t border-stone-200 mt-4">
+                  {r.source === 'google' ? (
+                    <a
+                      href={BRAND.googleMapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center space-x-1.5 text-[10px] uppercase tracking-wider font-mono text-emerald-700 hover:text-emerald-800 font-semibold transition-colors"
+                    >
+                      <MapPin size={11} className="stroke-[2.5]" />
+                      <span>
+                        {lang === 'en' ? 'Verified Google Maps Review' : 'Ulasan Asli Google Maps'}
+                      </span>
+                      <ExternalLink size={10} />
+                    </a>
+                  ) : (
+                    <div className="flex items-center space-x-1 text-[9px] uppercase tracking-wider font-mono text-emerald-700 font-semibold">
+                      <Award size={10} className="stroke-[3]" />
+                      <span>{lang === 'en' ? 'Verified GoUbudTrip Booking' : 'Pemesanan Terverifikasi GoUbudTrip'}</span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

@@ -20,7 +20,7 @@ export function slugifyTitle(title: string): string {
 }
 
 export const PAGE_PATHS: Record<Exclude<AppPage, 'tour-detail'>, string> = {
-  home: '/home',
+  home: '/',
   tours: '/paket-tour',
   'custom-tour': '/custom-tour',
   about: '/tentang-kami',
