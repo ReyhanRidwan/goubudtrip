@@ -244,50 +244,54 @@ export default function ActivitySection({ onBookNow, onViewDetails }: ActivitySe
                   <div className="flex items-center gap-1.5">
                     <Award size={12} className="text-emerald-700 flex-shrink-0" />
                     <span className="font-mono text-[9px] text-stone-600 truncate">
-                      {activity.id === 'batur-sunrise-tegalalang'
+                      {activity.id === 'half-day-bali-temple-waterfall-terraces'
                         ? lang === 'en'
-                          ? 'Private AC Car, Guide & Breakfast Included'
-                          : 'Mobil AC Privat, Pemandu & Sarapan Termasuk'
+                          ? 'Entry Tickets, Private AC Car & Local Host Included'
+                          : 'Tiket Masuk, Mobil AC Privat & Host Lokal Termasuk'
+                        : activity.id === 'batur-sunrise-tegalalang'
+                        ? lang === 'en'
+                          ? 'Entry Tickets, Private AC Car, Guide & Breakfast'
+                          : 'Tiket Masuk, Mobil AC Privat, Pemandu & Sarapan'
                         : activity.id === 'ubud-waterfalls-monkey-market' ||
                           activity.id === 'nungnung-sangeh-taman-ayun'
                         ? lang === 'en'
-                          ? 'Private AC Car, Driver & Fuel (Tickets Excluded)'
-                          : 'Mobil AC Privat, Driver & BBM (Exclude Tiket)'
+                          ? 'Entry Tickets, Private AC Car, Driver & Fuel'
+                          : 'Tiket Masuk, Mobil AC Privat, Driver & BBM'
                         : activity.id === 'ubud-iconic-tirta-empul-swing'
                         ? lang === 'en'
-                          ? 'Private AC Car, Driver, Sarong & Water (Tickets Excluded)'
-                          : 'Mobil AC Privat, Driver, Sarung & Air (Exclude Tiket)'
+                          ? 'Entry & Swing Tickets, AC Car, Sarong & Water'
+                          : 'Tiket Masuk & Swing, Mobil AC, Sarung & Air'
                         : activity.id === 'water-sports-uluwatu-temple'
                         ? lang === 'en'
                           ? 'Private AC Car, Insurance & Driver (Tickets Excluded)'
                           : 'Mobil AC Privat, Asuransi & Driver (Exclude Tiket)'
                         : activity.id === 'bali-atv-quad-lunch-spa'
                         ? lang === 'en'
-                          ? '2H ATV Bike, Buffet Lunch, 1H Spa & Car Included'
-                          : '2 Jam ATV, Buffet Lunch, Spa 1 Jam & Mobil AC'
+                          ? 'Entry Ticket, 2H ATV, Buffet Lunch & 1H Spa'
+                          : 'Tiket Masuk, 2 Jam ATV, Buffet Lunch & Spa 1 Jam'
                         : activity.id === 'white-water-rafting-monkey-forest'
                         ? lang === 'en'
-                          ? '2H Ayung Rafting, Buffet Lunch & Monkey Forest'
-                          : '2 Jam Rafting Ayung, Buffet Lunch & Monkey Forest'
+                          ? 'Entry Tickets, 2H Ayung Rafting & Buffet Lunch'
+                          : 'Tiket Masuk, 2 Jam Rafting Ayung & Buffet Lunch'
                         : activity.id === 'ubud-atv-jungle-mud-track'
                         ? lang === 'en'
-                          ? 'ATV Gear, Welcome Drink, Lunch & Shower Included'
-                          : 'Perlengkapan ATV, Welcome Drink, Makan Siang & Bilas'
+                          ? 'Entry Ticket, ATV Gear, Lunch & Shower Included'
+                          : 'Tiket Masuk, Perlengkapan ATV, Lunch & Bilas'
                         : activity.id === 'ubud-jungle-swing-photo-adventure'
                         ? lang === 'en'
-                          ? '5 Swing Types, 2 Nests, Big Stone & AC Pickup'
-                          : '5 Tipe Ayunan, 2 Sarang, Big Stone & Mobil AC'
+                          ? 'Entry Tickets, 5 Swings, 2 Nests & AC Pickup'
+                          : 'Tiket Masuk, 5 Ayunan, 2 Sarang & Mobil AC'
                         : activity.id === 'ubud-jungle-buggy-adventure'
                         ? lang === 'en'
-                          ? '3-Lap Polaris Buggy, Lunch, Lockers & AC Pickup'
-                          : '3 Putaran Polaris Buggy, Makan Siang, Loker & Mobil AC'
+                          ? 'Entry Tickets, 3-Lap Polaris Buggy, Lockers & AC'
+                          : 'Tiket Masuk, 3 Putaran Polaris Buggy & Mobil AC'
                         : activity.id === 'ubud-ultimate-culture-crafts-cascades'
                         ? lang === 'en'
-                          ? '9H Private AC Car, Local Guide, Sarong & Parking'
-                          : '9 Jam Mobil AC Privat, Pemandu, Sarung & Parkir'
+                          ? '8H Private AC Car, Entry Tickets, Guide & Sarong'
+                          : '8 Jam Mobil AC Privat, Tiket Masuk, Pemandu & Sarung'
                         : lang === 'en'
-                        ? 'Private AC Car, Driver & Lunch Included'
-                        : 'Mobil AC Privat, Driver & Makan Siang Termasuk'}
+                        ? 'Entry Tickets, Private AC Car & Lunch Included'
+                        : 'Tiket Masuk, Mobil AC Privat & Makan Siang Termasuk'}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -316,9 +320,9 @@ export default function ActivitySection({ onBookNow, onViewDetails }: ActivitySe
         {/* Dynamic Safe and Trust Badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
           <div className="text-center p-3">
-            <p className="font-mono text-gold-700 text-lg font-bold">EXCLUDE TICKET</p>
+            <p className="font-mono text-gold-700 text-lg font-bold">0–1 & 2–10 PAX</p>
             <p className="font-sans text-[11px] text-stone-600 mt-1">
-              {lang === 'en' ? 'Transparent Rate — Entrance Tickets Excluded' : 'Tarif Transparan — Tidak Termasuk Tiket Masuk'}
+              {lang === 'en' ? 'Transparent Solo & Group USD Rates' : 'Tarif Net USD Transparan (Solo & Grup)'}
             </p>
           </div>
           <div className="text-center p-3 md:border-l border-stone-200">

@@ -103,6 +103,9 @@ export default function HeroSection({
     if (exp.id === 'ubud-ultimate-culture-crafts-cascades') {
       return lang === 'en' ? 'Culture, Crafts & Cascades' : 'Budaya, Kerajinan & Air Terjun';
     }
+    if (exp.id === 'nusa-penida-day-tour') {
+      return lang === 'en' ? 'Nusa Penida • West & East' : 'Nusa Penida • Barat & Timur';
+    }
     return exp.tagline;
   };
 

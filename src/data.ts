@@ -17,9 +17,22 @@ export function getAddonPrice(addon: BookingAddon, currency: 'IDR' | 'USD' = 'US
 
 export function getTierPricePerPerson(
   exp: Experience,
-  _guests: number,
-  _isChild = false
+  guests: number,
+  isChild = false
 ): number {
+  if (exp.discountTiers && exp.discountTiers.length > 0) {
+    const matched = exp.discountTiers.find(
+      (t) => guests >= t.minPersons && guests <= t.maxPersons
+    );
+    if (matched) {
+      return isChild ? matched.childrenPrice : matched.adultPrice;
+    }
+    const fallbackTier =
+      guests <= 1
+        ? exp.discountTiers[0]
+        : exp.discountTiers[exp.discountTiers.length - 1];
+    return isChild ? fallbackTier.childrenPrice : fallbackTier.adultPrice;
+  }
   return exp.pricePerPerson;
 }
 
@@ -62,12 +75,17 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164645/6891ca5e-738a-4df3-9dea-defdfb13acc2.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795173147/00f50a12-ac99-4b5d-acb2-1e0a6766f485.png',
     ],
-    pricePerPerson: 25,
+    pricePerPerson: 40,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 55, childrenPrice: 55 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 40, childrenPrice: 40 },
+    ],
     duration: 'Half Day (4-5 hours)',
     tourType: 'Private Trip',
     groupSize: 'Private',
     languages: 'English Speaking',
+    tourNote: 'Entry tickets included. Excluded: lunch and personal expenses.',
     location: 'Village Temple, Tegenungan & Tegalalang',
     difficulty: 'Easy / Culture & Nature',
     maxPeople: 12,
@@ -80,7 +98,7 @@ export const EXPERIENCES: Experience[] = [
     featureBadges: [
       'Best for limited time',
       'Private AC car & local host',
-      'Exclude entrance tickets',
+      'Entry tickets included',
     ],
     relatedTitle: 'Ubud Jungle Swing & Balinese Spa',
     relatedExperienceId: 'bali-swing-spa-transport',
@@ -94,6 +112,7 @@ export const EXPERIENCES: Experience[] = [
       'Private air-conditioned car with an experienced, warm local Balinese host',
     ],
     inclusions: [
+      'Entrance tickets (Village Temple, Tegenungan Waterfall & Tegalalang Rice Terraces)',
       'Private tour with fully air-conditioned car',
       'Friendly local Balinese English-speaking driver/host',
       'Mineral water',
@@ -101,8 +120,8 @@ export const EXPERIENCES: Experience[] = [
       'Sarong for temple visit',
     ],
     exclusions: [
-      'Entrance tickets (Village Temple, Tegenungan Waterfall & Tegalalang Rice Terraces)',
-      'Meals & personal expenses',
+      'Lunch',
+      'Personal expenses',
       'Voluntary gratuities',
     ],
     itinerary: [
@@ -147,8 +166,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273535/cc8f5707-3256-4e01-9e25-bd3d4a3dd71f.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273538/327f6b59-391d-4f30-9dc4-38f3aaf79b90.png',
     ],
-    pricePerPerson: 60,
+    pricePerPerson: 45,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 60, childrenPrice: 60 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 45, childrenPrice: 45 },
+    ],
+    tourNote: 'Entry ticket & lunch included.',
     duration: '1 day',
     location: 'Blue Lagoon, Jepun & Hidden Waterfalls',
     difficulty: 'All Ages / Fun Adventure',
@@ -169,17 +193,17 @@ export const EXPERIENCES: Experience[] = [
       'Traditional boat transfer to eastern Bali coral reefs',
       'Swim with tropical reef fish and sea turtles in clear blue water',
       'Visit Kanto Lampo Waterfall & Tibumana Waterfall for scenic photos',
-      'Private air-conditioned car, English-speaking driver, lunch, and snorkeling gear',
+      'Private air-conditioned car, English-speaking driver, entry tickets, lunch & snorkeling gear',
     ],
     inclusions: [
+      'Entrance tickets (Snorkeling sites, Kanto Lampo & Tibumana Waterfalls)',
+      'Lunch',
       'Mineral water',
       'Private tour with fully air conditioned car',
       'English Speaking Driver',
-      'Lunch',
       'Snorkeling Equipment',
     ],
     exclusions: [
-      'Entrance tickets & attraction admission fees',
       'Personal expenses',
       'Extra cash for optional purchases',
       'Voluntary driver/guide gratuities',
@@ -225,8 +249,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273296/d3e70d94-f8de-4b68-b0ee-ca1f081df4be.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273300/f8d7606f-d916-4954-9c4b-4bdcc7ea4f98.png',
     ],
-    pricePerPerson: 95,
+    pricePerPerson: 100,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 130, childrenPrice: 130 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 100, childrenPrice: 100 },
+    ],
+    tourNote: 'Entry ticket & lunch included.',
     duration: '1 day',
     location: 'Ubud Village & Best Ubud Spa',
     difficulty: 'Easy / Cultural & Wellness',
@@ -253,6 +282,7 @@ export const EXPERIENCES: Experience[] = [
       'Relaxing one-hour Balinese massage at a premier spa in Ubud',
     ],
     inclusions: [
+      'Entry tickets',
       'Lunch',
       'Mineral water',
       'All ingredients',
@@ -266,7 +296,6 @@ export const EXPERIENCES: Experience[] = [
       'One hour Massage',
     ],
     exclusions: [
-      'Entrance tickets to attractions & optional sites',
       'Personal expenses',
       'Extra cash for optional purchases',
       'Voluntary gratuities',
@@ -312,8 +341,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273649/7da0325f-3abf-440b-b8e4-a9e082b3ab42.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273652/df23ff59-3753-4447-8187-bfb90495e921.png',
     ],
-    pricePerPerson: 75,
+    pricePerPerson: 60,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 100, childrenPrice: 100 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 60, childrenPrice: 60 },
+    ],
+    tourNote: 'Ticket included. Excluded: lunch & personal expenses.',
     duration: '1 day',
     location: 'Mount Batur & Tegalalang, Ubud',
     difficulty: 'Moderate / Sunrise Summit Trek',
@@ -336,6 +370,7 @@ export const EXPERIENCES: Experience[] = [
       'Scenic walk through the lush green Tegalalang Rice Terraces in Ubud',
     ],
     inclusions: [
+      'Entrance tickets (Mount Batur area & Tegalalang Rice Terraces)',
       'Breakfast',
       'Mineral water',
       'Private tour with fully air conditioned car',
@@ -344,7 +379,7 @@ export const EXPERIENCES: Experience[] = [
       'Flash light',
     ],
     exclusions: [
-      'Entrance tickets (Mount Batur area & Tegalalang Rice Terraces)',
+      'Lunch',
       'Personal expenses',
       'Extra cash for optional purchases',
       'Voluntary driver/guide gratuities',
@@ -390,8 +425,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273767/9c534976-e77e-499a-bab9-5e9a933f1e72.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273771/7c761736-148e-4cc1-8f52-e31cc1c573de.png',
     ],
-    pricePerPerson: 60,
+    pricePerPerson: 45,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 80, childrenPrice: 80 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 45, childrenPrice: 45 },
+    ],
+    tourNote: 'Ticket included. Excluded: lunch & personal expenses.',
     duration: '1 day',
     location: 'Tibumana, Kanto Lampo, Tegalalang & Ubud',
     difficulty: 'Easy / Sightseeing & Photography',
@@ -412,17 +452,18 @@ export const EXPERIENCES: Experience[] = [
       'Panoramic valley views at Tegalalang Rice Terrace',
       'Explore the Sacred Monkey Forest Sanctuary (Macaca fascicularis)',
       'Discover traditional Balinese crafts at Ubud Art Market',
-      'Private air-conditioned car, English-speaking driver & fuel',
+      'Entrance tickets, private AC car, English-speaking driver & fuel included',
     ],
     inclusions: [
+      'Entrance tickets (Tibumana, Kanto Lampo, Tegalalang & Monkey Forest)',
       'English Speaking Driver',
       'Gas / Fuel',
       'Air Conditioner Car',
       'Mineral Water',
     ],
     exclusions: [
-      'Entrance tickets to all waterfalls & attractions',
-      'Meals & personal expenses',
+      'Lunch',
+      'Personal expenses',
       'Optional activities (such as Bali Swing)',
       'Voluntary driver gratuities',
     ],
@@ -472,8 +513,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273896/6c7f1856-a911-408f-9a0b-f5401aad10d8.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273904/fd263ee8-1f4b-404a-a22d-2d99d22c9b6c.png',
     ],
-    pricePerPerson: 35,
+    pricePerPerson: 40,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 70, childrenPrice: 70 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 40, childrenPrice: 40 },
+    ],
+    tourNote: 'Ticket included. Excluded: lunch and personal expenses.',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -496,18 +542,19 @@ export const EXPERIENCES: Experience[] = [
       'Witness the majestic 70-metre (330 ft) Nungnung Waterfalls in central Bali',
       'Walk among ~600 long-tailed macaques at Sangeh Monkey Forest',
       'Explore Taman Ayun Royal Temple of the Mengwi Empire surrounded by lotus ponds',
-      'Balinese Sarong for temple visits included',
+      'Entrance tickets & Balinese Sarong for temple visits included',
       'Private air-conditioned car with English-speaking driver & fuel',
     ],
     inclusions: [
+      'Entrance tickets (Nungnung Waterfall, Sangeh Monkey Forest & Taman Ayun Temple)',
       'English Speaking Driver',
       'Gas / Fuel',
       'Air Conditioner Car',
       'Balinese Sarong for Visit the Temple',
     ],
     exclusions: [
-      'Entrance tickets (Nungnung Waterfall, Sangeh Monkey Forest & Taman Ayun Temple)',
-      'Lunch & personal expenses',
+      'Lunch',
+      'Personal expenses',
       'Voluntary driver gratuities',
     ],
     itinerary: [
@@ -551,8 +598,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164265/3ae5e650-ad31-4549-a478-77fec634e853.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274009/97ab54c8-9913-4fc4-8fe2-7f09f42c166d.png',
     ],
-    pricePerPerson: 45,
+    pricePerPerson: 80,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 120, childrenPrice: 120 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 80, childrenPrice: 80 },
+    ],
+    tourNote: 'Entry ticket & lunch included.',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -575,9 +627,10 @@ export const EXPERIENCES: Experience[] = [
       'Thrilling scenic swings overlooking Ubud’s lush jungle & rice terraces',
       'One-hour Balinese spa massage treatment at a premier Ubud spa',
       'Flexible-time lunch included (before or after your spa session)',
-      'One-hour spa, lunch, insurance & private AC transport included',
+      'Entry & swing tickets, one-hour spa, lunch, insurance & private AC transport included',
     ],
     inclusions: [
+      'Entrance tickets & Bali Swing activity ticket',
       'English Speaking Driver',
       'Gas / Fuel',
       'Air Conditioner Car',
@@ -586,8 +639,8 @@ export const EXPERIENCES: Experience[] = [
       'Lunch',
     ],
     exclusions: [
-      'Entrance tickets & Bali Swing activity ticket',
       'Personal Expense',
+      'Voluntary gratuities',
     ],
     itinerary: [
       {
@@ -615,8 +668,7 @@ export const EXPERIENCES: Experience[] = [
       'Slide and cliff-jump across Kroya, Kembar, Pucuk & Aling-Aling Waterfalls, enjoy lunch with scenic views, capture the iconic Handara Gate, and visit a traditional coffee plantation.',
     longDesc:
       'If you’re looking for an adrenaline packed day in Bali then Jumping Sliding at Aling- Aling Waterfall one of the best waterfalls in Bali, here’s why. Challenge yourself by sliding through the waterfall with an provided sliding board. Afterward, direct to the next gorgeous waterfalls of Kroya, Kembar, Pucuk and Aling Aling Waterfall. Spend 8 hours visiting, enjoy 2 hours the best nature of waterfall also can rush your adrenaline with cliff jumping and sliding Including Lunch at beautiful view heading to instagramable handara gate and our last stop at coffee plantation for observed how balinese people make coffee by traditional way.',
-    tourNote:
-      'For single traveler will be added additional charge USD 25 will be paid on the day of the tour',
+    tourNote: 'Entry tickets & lunch included.',
     bgImage:
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795164500/a32092e2-026e-41df-a6b7-eb15b0d54df3.png',
     cardImage:
@@ -627,8 +679,12 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274105/4ce2284c-6abe-451c-8ac2-bac000d8ab50.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274123/7cf4336d-1b95-4138-b5cc-084f418eb893.png',
     ],
-    pricePerPerson: 44,
+    pricePerPerson: 60,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 100, childrenPrice: 100 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 60, childrenPrice: 60 },
+    ],
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -652,9 +708,10 @@ export const EXPERIENCES: Experience[] = [
       'Scenic lunch overlooking northern Bali’s lush mountain landscape',
       'Instagrammable photo session at the iconic Handara Gate',
       'Traditional Balinese coffee plantation visit',
-      'Insurance, lunch & private AC transport included',
+      'Entry tickets, insurance, lunch & private AC transport included',
     ],
     inclusions: [
+      'Entrance & activity tickets (Aling-Aling Waterfall & Handara Gate)',
       'English Speaking Driver',
       'Gas / Fuel',
       'Air Conditioner Car',
@@ -662,8 +719,8 @@ export const EXPERIENCES: Experience[] = [
       'Lunch',
     ],
     exclusions: [
-      'Entrance & activity tickets (Aling-Aling Waterfall & Handara Gate)',
       'Personal Expense',
+      'Voluntary gratuities',
     ],
     itinerary: [
       {
@@ -706,8 +763,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274274/46b26062-eab1-42e7-87fc-03541f5aff07.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274286/7fed5a23-3571-49bb-99dd-916eb4f86faf.png',
     ],
-    pricePerPerson: 24,
+    pricePerPerson: 75,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 100, childrenPrice: 100 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 75, childrenPrice: 75 },
+    ],
+    tourNote: 'Tickets included. Excluded: lunch and personal expenses.',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -729,11 +791,12 @@ export const EXPERIENCES: Experience[] = [
     highlights: [
       'Explore Sacred Monkey Forest (~800 Balinese long-tailed macaques) & Ubud Palace',
       'Admire panoramic Tegalalang Rice Terrace 10 km north of Ubud',
-      'Optional Tegalalang Jungle Swing photo experience',
+      'Include Tegalalang Jungle Swing & attraction entry tickets',
       'Experience sacred Balinese water purification at Tirta Empul Temple',
       'Balinese sarong, bottled water, fuel & private AC car with English driver included',
     ],
     inclusions: [
+      'Entrance tickets (Monkey Forest, Tirta Empul, Tegalalang & Jungle Swing)',
       'English Speaking Driver',
       'Gas / Fuel',
       'Air Conditioner Car',
@@ -741,8 +804,9 @@ export const EXPERIENCES: Experience[] = [
       'Bottle of Water',
     ],
     exclusions: [
-      'Entrance tickets (Monkey Forest, Tirta Empul, Tegalalang & Jungle Swing)',
+      'Lunch',
       'Personal Expenses',
+      'Voluntary gratuities',
     ],
     itinerary: [
       {
@@ -785,8 +849,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795165217/928310f3-ae81-4749-ac19-9ba6d8a18e83.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274371/833c31e1-8ddc-46a5-bb82-04723cb0bc6c.png',
     ],
-    pricePerPerson: 75,
+    pricePerPerson: 50,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 60, childrenPrice: 60 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 50, childrenPrice: 50 },
+    ],
+    tourNote: 'Ticket, lunch & personal expenses are excluded.',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -819,6 +888,7 @@ export const EXPERIENCES: Experience[] = [
     ],
     exclusions: [
       'Entrance tickets (Uluwatu Temple) & water sports activity tickets',
+      'Lunch',
       'Personal Expenses',
     ],
     itinerary: [
@@ -863,8 +933,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274478/8ed6ff73-ac80-4c7e-a306-7e9924e49c1f.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274515/18b338a2-d618-487c-b3e1-266d3497ed97.png',
     ],
-    pricePerPerson: 55,
+    pricePerPerson: 90,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 140, childrenPrice: 140 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 90, childrenPrice: 90 },
+    ],
+    tourNote: 'Entry ticket & lunch included.',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -887,9 +962,10 @@ export const EXPERIENCES: Experience[] = [
       '2-hour countryside & village ATV quad bike ride assisted by a professional instructor',
       'Indonesian buffet lunch, locker & towel facilities provided',
       'One-hour soothing Balinese spa massage treatment after your ride',
-      'Insurance, fuel & private air-conditioned car with English-speaking driver',
+      'Entry tickets, insurance, fuel & private AC car with English-speaking driver',
     ],
     inclusions: [
+      'ATV entry tickets & site admission fees',
       'English Speaking Driver',
       'Gas / Fuel',
       'Air Conditioner Car',
@@ -897,10 +973,11 @@ export const EXPERIENCES: Experience[] = [
       'Locker',
       'Towel',
       'Buffet Lunch',
+      'One-hour Balinese spa massage',
     ],
     exclusions: [
-      'Entrance tickets & site admission fees',
       'Personal Expense',
+      'Voluntary gratuities',
     ],
     itinerary: [
       {
@@ -944,8 +1021,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274622/2a463ab8-fec6-4090-834b-8eeb05ffc1f6.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795273767/9c534976-e77e-499a-bab9-5e9a933f1e72.png',
     ],
-    pricePerPerson: 45,
+    pricePerPerson: 80,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 100, childrenPrice: 100 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 80, childrenPrice: 80 },
+    ],
+    tourNote: 'Entry ticket & lunch included.',
     duration: '8 hours',
     tourType: 'Daily Tour',
     groupSize: 'Unlimited',
@@ -968,16 +1050,17 @@ export const EXPERIENCES: Experience[] = [
       '2 hours of thrilling white water rafting along Ayung River northwest of Ubud',
       'Pass natural rainforest gorges and hidden river waterfalls',
       'Indonesian buffet lunch with a stunning rice field view',
-      'Visit Sacred Monkey Forest Sanctuary in Ubud (~800 long-tailed monkeys)',
+      'Visit Sacred Monkey Forest Sanctuary in Ubud (entry tickets included)',
     ],
     inclusions: [
+      'Entrance tickets (Monkey Forest & Ayung River rafting admission)',
       '2 hours Ayung River white water rafting experience',
       'Indonesian buffet lunch with a stunning view of rice field',
       'Private AC transfer to Sacred Monkey Forest Sanctuary Ubud',
     ],
     exclusions: [
-      'Entrance tickets (Monkey Forest & site admission fees)',
       'Personal Expense',
+      'Voluntary gratuities',
     ],
     itinerary: [
       {
@@ -1012,17 +1095,22 @@ export const EXPERIENCES: Experience[] = [
     longDesc:
       'Ignite your sense of adventure with the most thrilling Bali quad biking experience in Ubud. Designed for both beginners and experienced riders, this off-road journey breaks away from the usual tourist trails and plunges you straight into Bali’s wild terrain.\n\nYour experience begins with a safety briefing from our expert instructors, who will get you kitted out with top-tier safety gear, including helmets and boots. Once you are comfortable on your powerful quad bike, it’s time to rev your engine and hit the trail. Feel the rush of adrenaline as you navigate narrow jungle paths, conquer a thrilling 45-degree descent into a scenic river valley, and echo through shaded bamboo forests.\n\nAlong the way, you’ll get a glimpse of authentic island life. Wave back at friendly locals as you pass through traditional Balinese villages and cruise alongside peaceful rice fields. The real highlight comes at the end of the track—brace yourself for an epic, muddy finish as you blast through a dedicated splash zone where getting wet and dirty is all part of the fun!\n\nAfter conquering the trails, wash off the mud with a refreshing shower and relax as you recount the day’s highlights. Choose our optional hotel transfer for a completely seamless, door-to-door day of adventure.',
     bgImage:
-      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172245/174aae57-a651-481f-bd37-53bfb3ada380.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795314084/90eef5c7-1bde-44b2-8faf-6542f83fb4a1.png',
     cardImage:
-      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172245/174aae57-a651-481f-bd37-53bfb3ada380.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795314084/90eef5c7-1bde-44b2-8faf-6542f83fb4a1.png',
     images: [
-      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172245/174aae57-a651-481f-bd37-53bfb3ada380.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795314084/90eef5c7-1bde-44b2-8faf-6542f83fb4a1.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795172267/b24e558f-fd07-4ff8-9bc9-de0cbc2619d0.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274728/05cd1969-51f0-424d-85bd-13dcdd6d3dc9.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274715/e6999088-16ae-4515-b645-53955ade33c7.png',
     ],
-    pricePerPerson: 63,
+    pricePerPerson: 80,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 100, childrenPrice: 100 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 80, childrenPrice: 80 },
+    ],
+    tourNote: 'Entry ticket & lunch included.',
     duration: 'Half Day (4-5 hours)',
     isHalfDay: true,
     tourType: 'Open Trip',
@@ -1039,7 +1127,7 @@ export const EXPERIENCES: Experience[] = [
     featureBadges: [
       'Best price guaranty',
       'Open trip',
-      'Including lunch',
+      'Entry ticket & lunch included',
       'Professional Guide',
     ],
     packageOptions: [
@@ -1077,6 +1165,7 @@ export const EXPERIENCES: Experience[] = [
       'Flexible Riding Options: Whether you want total control on a solo bike or want to share the thrills with a partner or child, we have the perfect setup for your adventure style.',
     ],
     inclusions: [
+      'Entrance tickets & ATV trail admission fees',
       'Hotel pickup and drop off in fully AC vehicle (if the option is selected)',
       'English Speaking driver',
       'Experienced ATV guide',
@@ -1088,7 +1177,6 @@ export const EXPERIENCES: Experience[] = [
       'Insurance',
     ],
     exclusions: [
-      'Entrance tickets & site admission fees',
       'Video & photo documentation',
       'Guide tipping',
       'Personal expenses',
@@ -1135,8 +1223,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274874/70a1d106-82f9-458b-af75-153c6ab2480e.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274928/8b7e2c5e-78ff-405a-932f-d96082c8f33c.png',
     ],
-    pricePerPerson: 55,
+    pricePerPerson: 40,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 60, childrenPrice: 60 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 40, childrenPrice: 40 },
+    ],
+    tourNote: 'Entry tickets included. Excluded: lunch and personal expenses.',
     duration: 'Half Day (4-5 hours)',
     isHalfDay: true,
     tourType: 'Open Trip',
@@ -1153,6 +1246,7 @@ export const EXPERIENCES: Experience[] = [
     featureBadges: [
       'Best price guaranty',
       'Open trip',
+      'Entry tickets included',
       'Professional Guide',
     ],
     whatToExpect:
@@ -1177,15 +1271,16 @@ export const EXPERIENCES: Experience[] = [
       'Safety Meets Serenity: Feel the rush with total peace of mind. Our professional team uses international-standard safety harnesses and high-tension ropes, ensuring your only focus is the incredible view.',
     ],
     inclusions: [
+      'Entrance tickets to attraction area',
       'Hotel pickup and drop off in fully AC vehicle',
       '5 Type of Swings (1 Single Swing, 1 Tandem Swing, 1 Libra Swing & 1 Romantic Swing)',
       '2 Type of Cute Nests (1 Bird Nest, 1 Chicken Nest)',
       '1 Big Stone with an amazing rice paddy',
     ],
     exclusions: [
-      'Entrance tickets to attraction area',
-      'Guide tipping',
+      'Lunch',
       'Personal expenses',
+      'Guide tipping',
       'Dress for Photo',
     ],
     itinerary: [
@@ -1217,7 +1312,7 @@ export const EXPERIENCES: Experience[] = [
     title: 'Ubud Polaris Jungle Buggy (3 Laps)',
     tagline: 'Activity • Off-Road Jungle Buggy',
     shortDesc:
-      'Drive top-of-the-line Polaris Buggies across an exclusive 4.5km private jungle circuit (3 laps) with gourmet lunch, safety equipment, and private AC hotel pickup.',
+      'Drive top-of-the-line Polaris Buggies across an exclusive 4.5km private jungle circuit (3 laps) with entry tickets, safety equipment, and private AC hotel pickup.',
     longDesc:
       'Are you ready to get a little muddy and a lot of excited?\n\nStep away from the typical tourist trails and get behind the wheel for a pulse-pounding adventure in the highlands of Ubud. Your journey begins at our world-class motor park, where our professional guides will provide a comprehensive safety briefing and a practice lap to get you comfortable with the controls.\n\nOnce you’re ready, it’s time to hit the jungle. You’ll navigate through a custom-designed track that winds through thick tropical foliage and challenging terrain. Feel the adrenaline surge as you tackle the natural obstacles of the Balinese wilderness in a vehicle built for pure performance.',
     bgImage:
@@ -1230,8 +1325,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795274928/8b7e2c5e-78ff-405a-932f-d96082c8f33c.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795275002/74f74ccf-999f-440b-bb3a-66e8c077638b.png',
     ],
-    pricePerPerson: 61,
+    pricePerPerson: 80,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 120, childrenPrice: 120 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 80, childrenPrice: 80 },
+    ],
+    tourNote: 'Entry tickets included. Excluded: lunch and personal expenses.',
     duration: 'Half Day (3 Laps)',
     isHalfDay: true,
     tourType: 'Open Trip',
@@ -1248,7 +1348,7 @@ export const EXPERIENCES: Experience[] = [
     featureBadges: [
       'Best price guaranty',
       'Open trip',
-      'Including lunch',
+      'Entry tickets included',
       'Professional Guide',
     ],
     packageOptions: [
@@ -1277,22 +1377,22 @@ export const EXPERIENCES: Experience[] = [
     highlights: [
       'Elite Off-Road Machinery: Drive the “Rolls Royce” of off-road vehicles. We use top-of-the-line Polaris Buggies equipped with certified roll cages and 4-point harnesses, ensuring maximum power without compromising your safety.',
       'The Jungle Circuit: Forget dusty roads; our exclusive 4.5km private track is designed to test your skills with tight turns, uphill climbs, and downhill slopes, all set against a stunning jungle backdrop.',
-      'Mason Adventures Quality: Enjoy the peace of mind that comes with Bali’s most established adventure operator. Expect world-class facilities, professional instructors, and a delicious gourmet lunch to top off your day.',
+      'Mason Adventures Quality: Enjoy the peace of mind that comes with Bali’s most established adventure operator. Expect world-class facilities, professional instructors, and top-tier safety standards.',
     ],
     inclusions: [
+      'Entrance tickets & motor park admission fees',
       'Private hotel pickup and drop off in fully AC vehicle',
       'Use of Buggy vehicle on track',
       'Safety Equipment',
       'Professional guides',
       'Free use of lockers',
-      'Food only lunch',
       'Jungle Buggy 3 laps',
       'Insurance',
     ],
     exclusions: [
-      'Entrance tickets & site admission fees',
-      'Guide tipping',
+      'Lunch',
       'Personal expenses',
+      'Guide tipping',
       'Photos / Video',
     ],
     itinerary: [
@@ -1313,8 +1413,8 @@ export const EXPERIENCES: Experience[] = [
       },
       {
         time: '#4',
-        title: 'Gourmet Lunch & Return Transfer',
-        desc: 'Freshen up using free lockers, savor a gourmet lunch (food only), and relax on your private transfer back to your hotel.',
+        title: 'Freshen Up & Return Transfer',
+        desc: 'Use free lockers to freshen up (optional lunch available at own expense), then relax on your private transfer back to your hotel.',
       },
     ],
   },
@@ -1337,8 +1437,13 @@ export const EXPERIENCES: Experience[] = [
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795275060/d46fc671-3975-4dfb-8b86-52270df84cb8.png',
       'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795275064/a0c8907c-5720-4bac-9a9c-b89a4020c57f.png',
     ],
-    pricePerPerson: 18,
+    pricePerPerson: 40,
     currency: 'USD',
+    discountTiers: [
+      { minPersons: 0, maxPersons: 1, adultPrice: 60, childrenPrice: 60 },
+      { minPersons: 2, maxPersons: 10, adultPrice: 40, childrenPrice: 40 },
+    ],
+    tourNote: 'Entry tickets included. Excluded: lunch and personal expenses.',
     duration: '8 hours',
     tourType: 'Private Trip',
     groupSize: 'Private',
@@ -1380,6 +1485,7 @@ export const EXPERIENCES: Experience[] = [
       'Luwak Coffee Plantation: Experience a fascinating sensory journey into the production of the world’s most unique coffee, complete with complimentary tastings of various local brews and teas.',
     ],
     inclusions: [
+      'Entrance tickets to all attractions (Tegenungan Waterfall, Goa Gajah, Monkey Forest & Tegalalang)',
       'Experienced local tour guide',
       'Comfortable private car with AC',
       'Bottled drinking water',
@@ -1387,10 +1493,9 @@ export const EXPERIENCES: Experience[] = [
       'Parking fees at all locations',
     ],
     exclusions: [
-      'Entrance tickets to all attractions',
-      'Bali Swing ticket',
-      'Any personal expenses (e.g., souvenir shopping)',
       'Lunch',
+      'Any personal expenses (e.g., souvenir shopping)',
+      'Bali Swing ticket',
     ],
     itinerary: [
       {
@@ -1445,6 +1550,106 @@ export const EXPERIENCES: Experience[] = [
       },
     ],
   },
+  {
+    id: 'nusa-penida-day-tour',
+    category: 'adventure',
+    title: 'Nusa Penida Day Tour',
+    tagline: 'West & East Island Explorer',
+    shortDesc:
+      'Hop in to the glorious island of Nusa Penida—combining iconic West & East cliff beaches including Broken Beach, Angel Billabong, Kelingking Beach, and Diamond Beach with fast boat transfers & lunch.',
+    longDesc:
+      'Nusa Penida Day Tour – Hop In to the glorious island of Nusa Penida! An island southeast of Indonesia’s Bali and a district of Klungkung Regency that includes the neighboring small island of Nusa Lembongan.\n\nThe Badung Strait separates the island of Nusa Penida and Bali. Nusa Penida has become one of the most Instagrammable spots offering breathtaking views of beaches on the cliff—you must experience it. The best way to get to Nusa Penida from Bali is by boat from Sanur port. This Nusa Penida Tour is a bit different because we offer a combination between the West and East parts of Nusa Penida, Bali, so you experience the finest coastal highlights in one seamless day.',
+    bgImage:
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795314609/157d29be-da86-4119-8b70-614e261fe478.png',
+    cardImage:
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795314609/157d29be-da86-4119-8b70-614e261fe478.png',
+    images: [
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795314609/157d29be-da86-4119-8b70-614e261fe478.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795314614/ec36f064-e058-43f0-84a9-bee8181db65d.png',
+      'https://res.cloudinary.com/di6ziqvtp/image/upload/v1795314621/8a1e00d4-2bbd-4309-870b-721ac2f7d6d9.png',
+    ],
+    pricePerPerson: 95,
+    currency: 'USD',
+    duration: '1 day',
+    tourType: 'Private Trip',
+    groupSize: 'Private',
+    languages: 'English Speaking',
+    tourNote: 'Return fast boat tickets, all fees & lunch included. Group booking qualifies for special deals.',
+    location: 'Nusa Penida (West & East)',
+    difficulty: 'Easy / Island & Cliff Beaches',
+    maxPeople: 12,
+    minAge: 'All Ages',
+    pickupLabel: 'Location',
+    pickupTimes: ['06.00 am, 06.30 am, 07.00 am'],
+    pickupLocations:
+      'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, and others part of Bali.',
+    whatToBring: ['Cash', 'Sunblock', 'Hat', 'Short pant, slippers suggested'],
+    featureBadges: [
+      'West & East Combination',
+      'Return fast boat included',
+      'All fees & lunch included',
+    ],
+    relatedTitle: '2 Days Tour In Bali (Best Bali experiences)',
+    termsAndConditions: [
+      'Payment can settle on departure by Cash USD/IDR.',
+      'Price is Net includes Government tax.',
+      'Cancellation on Departure will be 100 % Charge.',
+      'Full refund 48 hours before your departure',
+      'Reasonable and fair price and that means no hidden charge',
+      'Group booking will be special deals',
+    ],
+    rating: 4.9,
+    reviewCount: 284,
+    highlights: [
+      'Unique West & East Nusa Penida combination in one seamless day tour',
+      'Return fast boat ticket from Sanur Port and all island entrance fees included',
+      'Visit Broken Beach, Angel Billabong, Kelingking Beach & Diamond Beach',
+      'Private transfer in Bali plus private air-conditioned car on Nusa Penida Island',
+      'English-speaking driver, mineral water & island lunch included',
+    ],
+    inclusions: [
+      'Pick up and return Private transfer in Bali',
+      'Private car in Nusa Penida Island',
+      'English speaking driver',
+      'Return fast boat ticket',
+      'All fees',
+      'Mineral water',
+      'Lunch',
+    ],
+    exclusions: ['Your personal expenses'],
+    itinerary: [
+      {
+        time: '#1',
+        title: 'Broken Beach',
+        desc: 'Marvel at the dramatic natural coastal rock arch and turquoise cove at Broken Beach (Pasih Uug) on West Nusa Penida.',
+      },
+      {
+        time: '#2',
+        title: 'Angel Billabong',
+        desc: 'Admire the crystal-clear natural infinity tide pool carved into coastal cliffs right next to Broken Beach.',
+      },
+      {
+        time: '#3',
+        title: 'Lunch',
+        desc: 'Recharge with an included island lunch before heading to the remaining scenic cliff spots.',
+      },
+      {
+        time: '#4',
+        title: 'Kelingking Beach',
+        desc: 'Take in iconic panoramic cliff views over the T-Rex peninsula and sparkling turquoise bay at Kelingking Beach.',
+      },
+      {
+        time: '#5',
+        title: 'Diamond Beach',
+        desc: 'Continue to East Nusa Penida to admire dramatic limestone cliffs, palm-lined stairs, and brilliant blue waters at Diamond Beach.',
+      },
+      {
+        time: '#6',
+        title: 'End of Tour',
+        desc: 'Fast boat crossing back to Sanur Port followed by comfortable private AC transfer to your hotel in Bali.',
+      },
+    ],
+  },
 ];
 
 export const EXPERIENCES_ID: Experience[] = [
@@ -1466,10 +1671,11 @@ export const EXPERIENCES_ID: Experience[] = [
     pickupLocations:
       'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
     whatToBring: ['Sepatu / sandal nyaman', 'Kamera', 'Sunblock', 'Uang tunai tambahan'],
+    tourNote: 'Tiket masuk sudah termasuk. Belum termasuk: makan siang dan pengeluaran pribadi.',
     featureBadges: [
       'Cocok untuk waktu terbatas',
       'Mobil AC privat & host lokal',
-      'Exclude tiket masuk',
+      'Tiket masuk termasuk',
     ],
     termsAndConditions: SHARED_TERMS_ID,
     highlights: [
@@ -1479,6 +1685,7 @@ export const EXPERIENCES_ID: Experience[] = [
       'Didampingi mobil ber-AC privat dan host lokal Ubud yang ramah serta berpengalaman',
     ],
     inclusions: [
+      'Tiket masuk objek wisata (Pura Desa, Air Terjun Tegenungan & Terasering Sawah Tegalalang)',
       'Tur privat dengan mobil ber-AC penuh',
       'Driver/host lokal Bali ramah berbahasa Inggris',
       'Air mineral',
@@ -1486,8 +1693,8 @@ export const EXPERIENCES_ID: Experience[] = [
       'Kain sarung untuk kunjungan pura',
     ],
     exclusions: [
-      'Tiket masuk objek wisata (Pura Desa, Air Terjun Tegenungan & Terasering Sawah Tegalalang)',
-      'Makan & pengeluaran pribadi',
+      'Makan siang',
+      'Pengeluaran pribadi',
       'Tip sukarela untuk driver',
     ],
     itinerary: [
@@ -1529,14 +1736,16 @@ export const EXPERIENCES_ID: Experience[] = [
       'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
     whatToBring: ['Handuk', 'Sunblock', 'Uang tunai tambahan'],
     termsAndConditions: SHARED_TERMS_ID,
+    tourNote: 'Tiket masuk objek wisata & makan siang sudah termasuk.',
     highlights: [
       'Snorkeling 2 jam di dua spot terbaik: Blue Lagoon & Jepun',
       'Transfer perahu tradisional menuju terumbu karang alami Bali Timur',
       'Berenang bersama ikan tropis dan penyu laut di air jernih',
       'Kunjungan foto Instagramable ke Air Terjun Kanto Lampo & Tibumana',
-      'Mobil AC privat, driver berpengalaman, makan siang, dan peralatan snorkeling',
+      'Mobil AC privat, tiket masuk, driver berpengalaman, makan siang, dan peralatan snorkeling',
     ],
     inclusions: [
+      'Tiket masuk objek wisata (Lokasi Snorkeling, Air Terjun Kanto Lampo & Tibumana)',
       'Air mineral',
       'Tur privat dengan mobil ber-AC penuh',
       'Driver berbahasa Inggris',
@@ -1544,7 +1753,6 @@ export const EXPERIENCES_ID: Experience[] = [
       'Peralatan Snorkeling lengkap',
     ],
     exclusions: [
-      'Tiket masuk objek wisata & retribusi spot kunjungan',
       'Pengeluaran pribadi',
       'Uang tunai tambahan untuk belanja opsional',
       'Tip sukarela untuk driver/pemandu',
@@ -1599,7 +1807,9 @@ export const EXPERIENCES_ID: Experience[] = [
       'Tersedia pilihan menu vegetarian, bahan lengkap, dan welcome drink',
       'Pijat relaksasi satu jam di spa pilihan terbaik di Ubud',
     ],
+    tourNote: 'Tiket masuk & makan siang sudah termasuk.',
     inclusions: [
+      'Tiket masuk aktivitas & destinasi',
       'Makan siang',
       'Air mineral',
       'Semua bahan masakan',
@@ -1613,7 +1823,6 @@ export const EXPERIENCES_ID: Experience[] = [
       'Pijat Spa 1 Jam',
     ],
     exclusions: [
-      'Tiket masuk objek wisata & destinasi tambahan',
       'Pengeluaran pribadi',
       'Uang tunai tambahan',
       'Tip sukarela',
@@ -1664,7 +1873,9 @@ export const EXPERIENCES_ID: Experience[] = [
       'Singgah di Perkebunan Kopi Bali (opsional)',
       'Menikmati hamparan hijau asri Terasering Sawah Tegalalang di Ubud',
     ],
+    tourNote: 'Tiket masuk sudah termasuk. Belum termasuk: makan siang & pengeluaran pribadi.',
     inclusions: [
+      'Tiket masuk kawasan (Gunung Batur & Terasering Sawah Tegalalang)',
       'Sarapan pagi',
       'Air mineral',
       'Tur privat dengan mobil ber-AC penuh',
@@ -1673,7 +1884,7 @@ export const EXPERIENCES_ID: Experience[] = [
       'Senter (Flash light)',
     ],
     exclusions: [
-      'Tiket masuk kawasan (Gunung Batur & Terasering Sawah Tegalalang)',
+      'Makan siang',
       'Pengeluaran pribadi',
       'Uang tunai tambahan untuk belanja opsional',
       'Tip sukarela untuk driver/pemandu',
@@ -1717,22 +1928,24 @@ export const EXPERIENCES_ID: Experience[] = [
       'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
     whatToBring: ['Kamera', 'Alas kaki yang nyaman', 'Pakaian ganti & handuk', 'Uang tunai tambahan'],
     termsAndConditions: SHARED_TERMS_ID,
+    tourNote: 'Tiket masuk sudah termasuk. Belum termasuk: makan siang & pengeluaran pribadi.',
     highlights: [
       'Durasi santai ±1 jam per lokasi di Air Terjun Tibumana & Kanto Lampo',
       'Pemandangan lembah hijau spektakuler di Tegalalang Rice Terrace',
       'Mengunjungi suaka alami monyet ekor panjang di Monkey Forest Ubud',
       'Belanja kerajinan dan seni tradisional Bali di Pasar Seni Ubud',
-      'Mobil AC privat, driver berbahasa Inggris, BBM & air mineral',
+      'Tiket masuk wisata, mobil AC privat, driver berbahasa Inggris, BBM & air mineral termasuk',
     ],
     inclusions: [
+      'Tiket masuk objek wisata (Tibumana, Kanto Lampo, Tegalalang & Monkey Forest)',
       'Driver Berbahasa Inggris',
       'BBM / Bahan Bakar',
       'Mobil Ber-AC Penuh',
       'Air Mineral',
     ],
     exclusions: [
-      'Tiket masuk seluruh air terjun & objek wisata',
-      'Makan siang & pengeluaran pribadi',
+      'Makan siang',
+      'Pengeluaran pribadi',
       'Aktivitas opsional (seperti ayunan Bali Swing)',
       'Tip sukarela untuk driver',
     ],
@@ -1783,22 +1996,24 @@ export const EXPERIENCES_ID: Experience[] = [
       'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
     whatToBring: ['Alas kaki nyaman', 'Kamera', 'Uang tunai tambahan'],
     termsAndConditions: SHARED_TERMS_ID,
+    tourNote: 'Tiket masuk sudah termasuk. Belum termasuk: makan siang dan pengeluaran pribadi.',
     highlights: [
       'Menyaksikan Air Terjun Nungnung setinggi 70 meter di Bali tengah',
       'Berinteraksi dengan ~600 monyet ekor panjang di Sangeh Monkey Forest',
       'Mengunjungi Pura Kerajaan Taman Ayun di Mengwi yang dikelilingi kolam air indah',
-      'Sudah termasuk kain sarung Bali untuk kunjungan pura',
+      'Sudah termasuk tiket masuk wisata & kain sarung Bali untuk kunjungan pura',
       'Mobil AC privat dengan driver berbahasa Inggris & BBM',
     ],
     inclusions: [
+      'Tiket masuk destinasi (Air Terjun Nungnung, Sangeh & Pura Taman Ayun)',
       'Driver Berbahasa Inggris',
       'BBM / Bahan Bakar',
       'Mobil Ber-AC Penuh',
       'Kain Sarung Bali untuk Mengunjungi Pura',
     ],
     exclusions: [
-      'Tiket masuk destinasi (Air Terjun Nungnung, Sangeh & Pura Taman Ayun)',
-      'Makan siang & pengeluaran pribadi',
+      'Makan siang',
+      'Pengeluaran pribadi',
       'Tip sukarela untuk driver',
     ],
     itinerary: [
@@ -1843,13 +2058,15 @@ export const EXPERIENCES_ID: Experience[] = [
       'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
     whatToBring: ['Pakaian berwarna cerah untuk foto swing', 'Kamera', 'Uang tunai tambahan'],
     termsAndConditions: SHARED_TERMS_ID,
+    tourNote: 'Tiket masuk & makan siang sudah termasuk.',
     highlights: [
       'Pengalaman ayunan ikonik dengan pemandangan hutan & terasering sawah Ubud',
       'Perawatan pijat spa tradisional Bali selama 1 jam di Ubud',
       'Makan siang fleksibel (sebelum atau sesudah spa)',
-      'Sudah termasuk spa 1 jam, makan siang, asuransi & transportasi AC privat',
+      'Sudah termasuk tiket masuk & Bali Swing, spa 1 jam, makan siang, asuransi & mobil AC privat',
     ],
     inclusions: [
+      'Tiket masuk & tiket aktivitas Bali Swing',
       'Driver Berbahasa Inggris',
       'BBM / Bahan Bakar',
       'Mobil Ber-AC Penuh',
@@ -1858,8 +2075,8 @@ export const EXPERIENCES_ID: Experience[] = [
       'Makan Siang',
     ],
     exclusions: [
-      'Tiket masuk & tiket aktivitas Bali Swing',
       'Pengeluaran Pribadi',
+      'Tip sukarela',
     ],
     itinerary: [
       {
@@ -1886,8 +2103,7 @@ export const EXPERIENCES_ID: Experience[] = [
       'Pacu adrenalin meluncur & melompat tebing di Air Terjun Kroya, Kembar, Pucuk & Aling-Aling selama 2 jam, nikmati makan siang berlatar indah, foto di Handara Gate, dan wisata kopi.',
     longDesc:
       'Jika Anda mencari hari penuh adrenalin di Bali, Jumping & Sliding di Air Terjun Aling-Aling adalah pilihan terbaik. Tantang diri Anda meluncur di air terjun dengan papan luncur khusus dan lanjutkan ke air terjun indah lainnya: Kroya, Kembar, Pucuk, dan Aling-Aling selama 2 jam penuh.\n\nSetelah itu nikmati makan siang dengan pemandangan menawan, berfoto di gerbang ikonik Handara Gate, serta singgah di perkebunan kopi tradisional Bali sebelum kembali.',
-    tourNote:
-      'Untuk peserta tunggal (single traveler) dikenakan biaya tambahan USD 25 yang dibayarkan pada hari tur.',
+    tourNote: 'Tiket masuk & makan siang sudah termasuk.',
     duration: '8 jam',
     tourType: 'Tur Harian',
     groupSize: 'Tanpa Batas (Unlimited)',
@@ -1905,9 +2121,10 @@ export const EXPERIENCES_ID: Experience[] = [
       'Makan siang berlatar pemandangan alam Bali Utara yang sejuk',
       'Sesi foto Instagramable di gerbang ikonik Handara Gate',
       'Melihat proses pembuatan kopi tradisional di perkebunan kopi Bali',
-      'Termasuk asuransi, makan siang & mobil AC privat',
+      'Termasuk tiket masuk, asuransi, makan siang & mobil AC privat',
     ],
     inclusions: [
+      'Tiket masuk & tiket aktivitas (Air Terjun Aling-Aling & Handara Gate)',
       'Driver Berbahasa Inggris',
       'BBM / Bahan Bakar',
       'Mobil Ber-AC Penuh',
@@ -1915,8 +2132,8 @@ export const EXPERIENCES_ID: Experience[] = [
       'Makan Siang',
     ],
     exclusions: [
-      'Tiket masuk & tiket aktivitas (Air Terjun Aling-Aling & Handara Gate)',
       'Pengeluaran Pribadi',
+      'Tip sukarela',
     ],
     itinerary: [
       {
@@ -1960,14 +2177,16 @@ export const EXPERIENCES_ID: Experience[] = [
       'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
     whatToBring: ['Baju ganti (untuk ritual penyucian)', 'Kamera', 'Uang tunai tambahan'],
     termsAndConditions: SHARED_TERMS_ID,
+    tourNote: 'Tiket masuk sudah termasuk. Belum termasuk: makan siang dan pengeluaran pribadi.',
     highlights: [
       'Mengunjungi Sacred Monkey Forest (~800 ekor kera) & Puri Kerajaan Ubud',
       'Panorama indah Terasering Sawah Tegalalang di utara Ubud',
-      'Kesempatan mencoba wahana populer Tegalalang Jungle Swing',
+      'Sudah termasuk tiket masuk wisata & wahana populer Tegalalang Jungle Swing',
       'Pengalaman tradisi penyucian diri di Pura Tirta Empul',
       'Sudah termasuk kain sarung pura, air mineral, BBM & mobil AC privat',
     ],
     inclusions: [
+      'Tiket masuk objek wisata (Monkey Forest, Tirta Empul, Tegalalang & Jungle Swing)',
       'Driver Berbahasa Inggris',
       'BBM / Bahan Bakar',
       'Mobil Ber-AC Penuh',
@@ -1975,8 +2194,9 @@ export const EXPERIENCES_ID: Experience[] = [
       'Air Mineral Botol',
     ],
     exclusions: [
-      'Tiket masuk objek wisata (Monkey Forest, Tirta Empul, Tegalalang & Jungle Swing)',
+      'Makan siang',
       'Pengeluaran Pribadi',
+      'Tip sukarela',
     ],
     itinerary: [
       {
@@ -2026,6 +2246,7 @@ export const EXPERIENCES_ID: Experience[] = [
       'Asuransi perjalanan, mobil AC privat, driver & BBM termasuk',
       'Penjemputan privat pukul 09.00 pagi dari hotel di Bali',
     ],
+    tourNote: 'Tiket masuk, makan siang & pengeluaran pribadi tidak termasuk.',
     inclusions: [
       'Driver Berbahasa Inggris',
       'BBM / Bahan Bakar',
@@ -2034,6 +2255,7 @@ export const EXPERIENCES_ID: Experience[] = [
     ],
     exclusions: [
       'Tiket masuk Pura Uluwatu & tiket aktivitas water sports',
+      'Makan siang',
       'Pengeluaran Pribadi',
     ],
     itinerary: [
@@ -2078,13 +2300,15 @@ export const EXPERIENCES_ID: Experience[] = [
       'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
     whatToBring: ['Baju ganti', 'Sepatu nyaman untuk aktivitas luar ruang', 'Uang tunai tambahan'],
     termsAndConditions: SHARED_TERMS_ID,
+    tourNote: 'Tiket masuk & makan siang sudah termasuk.',
     highlights: [
       'Petualangan ATV Quad Bike 2 jam menyusuri desa & jalur alam bersama instruktur profesional',
-      'Sudah termasuk makan siang prasmanan (Buffet Lunch), loker & handuk',
+      'Sudah termasuk tiket masuk lokasi, makan siang prasmanan (Buffet Lunch), loker & handuk',
       'Pijat relaksasi spa selama satu jam setelah berpetualang',
       'Asuransi, BBM & mobil ber-AC privat dengan driver berbahasa Inggris',
     ],
     inclusions: [
+      'Tiket masuk kawasan ATV & retribusi lokasi',
       'Driver Berbahasa Inggris',
       'BBM / Bahan Bakar',
       'Mobil Ber-AC Penuh',
@@ -2092,10 +2316,11 @@ export const EXPERIENCES_ID: Experience[] = [
       'Loker (Locker)',
       'Handuk (Towel)',
       'Makan Siang Buffet',
+      'Pijat Spa Relaksasi 1 Jam',
     ],
     exclusions: [
-      'Tiket masuk kawasan & biaya retribusi lokasi',
       'Pengeluaran Pribadi',
+      'Tip sukarela',
     ],
     itinerary: [
       {
@@ -2145,14 +2370,16 @@ export const EXPERIENCES_ID: Experience[] = [
       'Makan siang buffet Indonesia dengan pemandangan hamparan sawah hijau',
       'Kunjungan ke Sacred Monkey Forest Sanctuary Ubud (~800 ekor kera)',
     ],
+    tourNote: 'Tiket masuk & makan siang sudah termasuk.',
     inclusions: [
+      'Tiket masuk wisata (Monkey Forest & tiket masuk lokasi rafting)',
       'Menikmati 2 jam white water rafting di Ubud.',
       'Makan siang buffet Indonesia dengan pemandangan sawah yang memukau.',
       'Transportasi privat menuju suaka Monkey Forest di Ubud.',
     ],
     exclusions: [
-      'Tiket masuk wisata (Monkey Forest & biaya masuk lokasi)',
       'Pengeluaran Pribadi',
+      'Tip sukarela',
     ],
     itinerary: [
       {
@@ -2194,10 +2421,11 @@ export const EXPERIENCES_ID: Experience[] = [
     pickupLabel: 'Lokasi Hotel',
     pickupLocations:
       'Hotel atau akomodasi Anda (jika opsi antar-jemput dipilih) di area Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan bagian Bali lainnya.',
+    tourNote: 'Tiket masuk & makan siang sudah termasuk.',
     featureBadges: [
       'Jaminan harga terbaik',
       'Open trip',
-      'Termasuk makan siang',
+      'Tiket masuk & makan siang termasuk',
       'Pemandu Profesional',
     ],
     packageOptions: [
@@ -2231,6 +2459,7 @@ export const EXPERIENCES_ID: Experience[] = [
       'Opsi Berkendara Fleksibel: Tersedia pilihan Single Ride maupun Tandem Ride sesuai gaya petualangan Anda.',
     ],
     inclusions: [
+      'Tiket masuk kawasan & biaya masuk trek ATV',
       'Antar-jemput hotel dengan mobil ber-AC penuh (jika opsi dipilih)',
       'Driver berbahasa Inggris',
       'Pemandu ATV berpengalaman',
@@ -2242,7 +2471,6 @@ export const EXPERIENCES_ID: Experience[] = [
       'Asuransi',
     ],
     exclusions: [
-      'Tiket masuk kawasan & biaya masuk lokasi wisata',
       'Dokumentasi foto & video',
       'Tip pemandu',
       'Pengeluaran pribadi',
@@ -2287,9 +2515,11 @@ export const EXPERIENCES_ID: Experience[] = [
     pickupLabel: 'Lokasi Hotel',
     pickupLocations:
       'Hotel atau akomodasi Anda di Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
+    tourNote: 'Tiket masuk sudah termasuk. Belum termasuk: makan siang dan pengeluaran pribadi.',
     featureBadges: [
       'Jaminan harga terbaik',
       'Open trip',
+      'Termasuk tiket masuk',
       'Pemandu Profesional',
     ],
     whatToExpect:
@@ -2310,15 +2540,16 @@ export const EXPERIENCES_ID: Experience[] = [
       'Keamanan Berstandar Internasional: Didukung harness pengaman standar internasional dan tim profesional berpengalaman.',
     ],
     inclusions: [
+      'Tiket masuk kawasan wisata',
       'Antar-jemput hotel dengan mobil ber-AC penuh',
       '5 Tipe Ayunan (1 Single Swing, 1 Tandem Swing, 1 Libra Swing & 1 Romantic Swing)',
       '2 Tipe Sarang Foto (1 Bird Nest, 1 Chicken Nest)',
       '1 Spot Big Stone dengan pemandangan sawah memukau',
     ],
     exclusions: [
-      'Tiket masuk kawasan wisata',
-      'Tip pemandu',
+      'Makan siang',
       'Pengeluaran pribadi',
+      'Tip pemandu',
       'Sewa gaun foto (Dress for Photo)',
     ],
     itinerary: [
@@ -2348,9 +2579,10 @@ export const EXPERIENCES_ID: Experience[] = [
     ...EXPERIENCES[14],
     tagline: 'Aktivitas • Off-Road Jungle Buggy',
     shortDesc:
-      'Kemudikan Polaris Buggy kelas atas di sirkuit hutan privat sepanjang 4,5 km (3 putaran) lengkap dengan makan siang lezat, perlengkapan keselamatan, dan antar-jemput privat.',
+      'Kemudikan Polaris Buggy kelas atas di sirkuit hutan privat sepanjang 4,5 km (3 putaran) lengkap dengan tiket masuk, perlengkapan keselamatan, dan antar-jemput privat.',
     longDesc:
       'Siap berpetualang menantang lumpur di dataran tinggi Ubud?\n\nMelangkah keluar dari jalur wisata biasa dan kemudikan langsung buggy off-road berkinerja tinggi di motor park kelas dunia kami. Setelah pengarahan keselamatan lengkap dan satu putaran latihan bersama pemandu profesional, Anda siap menaklukkan lintasan khusus yang membelah rimbunnya hutan tropis Bali.',
+    tourNote: 'Tiket masuk sudah termasuk. Belum termasuk: makan siang dan pengeluaran pribadi.',
     duration: 'Setengah Hari (3 Putaran)',
     isHalfDay: true,
     tourType: 'Open Trip',
@@ -2364,7 +2596,7 @@ export const EXPERIENCES_ID: Experience[] = [
     featureBadges: [
       'Jaminan harga terbaik',
       'Open trip',
-      'Termasuk makan siang',
+      'Termasuk tiket masuk',
       'Pemandu Profesional',
     ],
     packageOptions: [
@@ -2389,22 +2621,22 @@ export const EXPERIENCES_ID: Experience[] = [
     highlights: [
       'Armada Off-Road Kelas Atas: Menggunakan Polaris Buggy premium dilengkapi roll cage bersertifikat dan sabuk pengaman 4 titik.',
       'Sirkuit Hutan Privat 4,5 km: Lintasan eksklusif dengan tikungan tajam, tanjakan, dan turunan berlatar hutan hujan tropis.',
-      'Kualitas Mason Adventures: Fasilitas kelas dunia, instruktur profesional, serta hidangan makan siang lezat.',
+      'Kualitas Mason Adventures: Fasilitas kelas dunia, instruktur profesional, dan standar keamanan terbaik.',
     ],
     inclusions: [
+      'Tiket masuk kawasan wisata & motor park',
       'Antar-jemput hotel privat dengan mobil ber-AC penuh',
       'Penggunaan kendaraan Buggy di lintasan',
       'Peralatan Keselamatan',
       'Pemandu profesional',
       'Penggunaan loker gratis',
-      'Makan siang (makanan saja)',
       'Jungle Buggy 3 putaran (3 laps)',
       'Asuransi',
     ],
     exclusions: [
-      'Tiket masuk kawasan wisata',
-      'Tip pemandu',
+      'Makan siang',
       'Pengeluaran pribadi',
+      'Tip pemandu',
       'Foto / Video',
     ],
     itinerary: [
@@ -2425,8 +2657,8 @@ export const EXPERIENCES_ID: Experience[] = [
       },
       {
         time: '#4',
-        title: 'Makan Siang & Pengantaran Kembali ke Hotel',
-        desc: 'Menggunakan loker gratis untuk beristirahat, menyantap makan siang, dan kembali ke hotel dengan nyaman.',
+        title: 'Istirahat & Pengantaran Kembali ke Hotel',
+        desc: 'Menggunakan loker gratis untuk membersihkan diri (makan siang opsional tersedia dengan biaya pribadi) lalu kembali ke hotel dengan nyaman.',
       },
     ],
   },
@@ -2470,7 +2702,9 @@ export const EXPERIENCES_ID: Experience[] = [
       'Terasering Sawah Tegalalang: Pemandangan sawah bertingkat hijau yang memukau sebagai ikon sistem irigasi tradisional Bali.',
       'Perkebunan Kopi Luwak: Pengalaman mengenal proses pembuatan kopi unik disertai mencicipi gratis berbagai teh dan kopi lokal.',
     ],
+    tourNote: 'Tiket masuk sudah termasuk. Belum termasuk: makan siang dan pengeluaran pribadi.',
     inclusions: [
+      'Tiket masuk seluruh objek wisata (Tegenungan, Goa Gajah, Monkey Forest & Tegalalang)',
       'Pemandu wisata lokal berpengalaman',
       'Mobil privat nyaman ber-AC penuh',
       'Air mineral kemasan',
@@ -2478,10 +2712,9 @@ export const EXPERIENCES_ID: Experience[] = [
       'Biaya parkir di seluruh lokasi',
     ],
     exclusions: [
-      'Tiket masuk seluruh objek wisata',
-      'Tiket Bali Swing',
-      'Pengeluaran pribadi (belanja suvenir, dll.)',
       'Makan siang',
+      'Pengeluaran pribadi (belanja suvenir, dll.)',
+      'Tiket Bali Swing',
     ],
     itinerary: [
       {
@@ -2533,6 +2766,89 @@ export const EXPERIENCES_ID: Experience[] = [
         time: '04:30 PM',
         title: 'Tiba di Hotel',
         desc: 'Tiba kembali di akomodasi Anda setelah perjalanan 8 jam dengan kenangan tak terlupakan dari Ubud.',
+      },
+    ],
+  },
+  {
+    ...EXPERIENCES[16],
+    tagline: 'Eksplorasi Nusa Penida Barat & Timur',
+    shortDesc:
+      'Jelajahi keindahan Pulau Nusa Penida—kombinasi unik pantai tebing Barat & Timur mencakup Broken Beach, Angel Billabong, Kelingking Beach, dan Diamond Beach dengan fast boat & makan siang.',
+    longDesc:
+      'Nusa Penida Day Tour – Ayo berkunjung ke pulau menakjubkan Nusa Penida di sebelah tenggara Bali! Dipisahkan oleh Selat Badung, Nusa Penida menjadi salah satu destinasi paling Instagramable dengan pemandangan pantai dari atas tebing yang luar biasa.\n\nAkses terbaik menuju Nusa Penida adalah menggunakan fast boat dari Pelabuhan Sanur. Tur Nusa Penida kami dirancang berbeda karena memadukan sisi Barat dan Timur Nusa Penida sekaligus dalam satu hari perjalanan yang nyaman.',
+    duration: '1 hari',
+    tourType: 'Tur Privat',
+    groupSize: 'Privat',
+    languages: 'Inggris / Indonesia',
+    tourNote: 'Sudah termasuk tiket fast boat PP, semua retribusi biaya, & makan siang. Pemesanan grup mendapat harga spesial.',
+    location: 'Nusa Penida (Barat & Timur)',
+    difficulty: 'Santai / Pulau & Pantai Tebing',
+    minAge: 'Semua Usia',
+    pickupLabel: 'Lokasi Hotel',
+    pickupLocations:
+      'Ubud, Kuta, Legian, Seminyak, Nusa Dua, Canggu, Uluwatu, dan area lainnya di Bali.',
+    whatToBring: ['Uang tunai', 'Sunblock / tabir surya', 'Topi', 'Celana pendek, disarankan sandal jepit'],
+    featureBadges: [
+      'Kombinasi Barat & Timur',
+      'Tiket fast boat PP termasuk',
+      'Semua biaya & makan siang termasuk',
+    ],
+    relatedTitle: '2 Days Tour In Bali (Pengalaman Terbaik Bali)',
+    termsAndConditions: [
+      'Pembayaran dapat diselesaikan saat keberangkatan secara tunai (USD/IDR).',
+      'Harga sudah bersih (Net) termasuk pajak pemerintah.',
+      'Pembatalan pada hari keberangkatan dikenakan biaya 100%.',
+      'Pengembalian dana penuh (100% refund) jika dibatalkan 48 jam sebelum keberangkatan.',
+      'Harga wajar dan transparan tanpa biaya tersembunyi.',
+      'Pemesanan grup mendapatkan penawaran harga spesial.',
+    ],
+    highlights: [
+      'Kombinasi rute Nusa Penida Barat & Timur sekaligus dalam satu hari',
+      'Sudah termasuk tiket fast boat PP dari Sanur & seluruh biaya retribusi wisata',
+      'Mengunjungi Broken Beach, Angel Billabong, Kelingking Beach & Diamond Beach',
+      'Transfer privat di Bali serta mobil ber-AC privat di Pulau Nusa Penida',
+      'Didampingi driver berbahasa Inggris, air mineral & makan siang',
+    ],
+    inclusions: [
+      'Antar-jemput privat pulang-pergi di Bali',
+      'Mobil privat di Pulau Nusa Penida',
+      'Driver berbahasa Inggris',
+      'Tiket fast boat pulang-pergi (Return)',
+      'Semua biaya & retribusi (All fees)',
+      'Air mineral',
+      'Makan siang',
+    ],
+    exclusions: ['Pengeluaran pribadi Anda'],
+    itinerary: [
+      {
+        time: '#1',
+        title: 'Broken Beach',
+        desc: 'Menyaksikan lengkungan batu karang alami dan teluk biru jernih di Broken Beach (Pasih Uug), Nusa Penida Barat.',
+      },
+      {
+        time: '#2',
+        title: 'Angel Billabong',
+        desc: 'Menikmati kolam pasang surut alami sebening kristal yang terbentuk di antara tebing batu karang pesisir.',
+      },
+      {
+        time: '#3',
+        title: 'Makan Siang',
+        desc: 'Beristirahat dan mengisi tenaga dengan hidangan makan siang pulau yang sudah termasuk dalam paket.',
+      },
+      {
+        time: '#4',
+        title: 'Kelingking Beach',
+        desc: 'Mengabadikan panorama ikonik tebing menyerupai T-Rex dan ombak biru memukau di Kelingking Beach.',
+      },
+      {
+        time: '#5',
+        title: 'Diamond Beach',
+        desc: 'Melanjutkan ke Nusa Penida Timur untuk melihat pasir putih, tebing kapur megah, dan laut biru berkilau di Diamond Beach.',
+      },
+      {
+        time: '#6',
+        title: 'Akhir Tur (End of Tour)',
+        desc: 'Kembali menyeberang dengan fast boat menuju Pelabuhan Sanur dan pengantaran privat ke hotel Anda di Bali.',
       },
     ],
   },
@@ -2947,7 +3263,7 @@ export const FAQS = [
   {
     question: 'Are attraction entrance tickets included in the tour price?',
     answer:
-      'All package rates exclude entrance tickets so you enjoy flexible sightseeing and transparent Net pricing in USD without hidden markups.',
+      'Yes! All Ubud & adventure packages now include attraction entry tickets (and lunch on selected packages), except Tanjung Benoa Water Sports & Uluwatu where activity/temple tickets and lunch remain excluded. Pricing is transparent in USD for both solo (0–1 pax) and group (2–10 paxs) bookings.',
   },
   {
     question: 'Can vegetarian or dietary preferences be accommodated?',
@@ -2975,7 +3291,7 @@ export const FAQS_ID = [
   {
     question: 'Apakah harga paket sudah termasuk tiket masuk objek wisata?',
     answer:
-      'Semua paket kami bersifat exclude tiket masuk (tidak termasuk tiket masuk destinasi) sehingga harga Net dalam USD lebih transparan dan fleksibel tanpa biaya tersembunyi.',
+      'Ya, seluruh paket Ubud dan aktivitas kami kini sudah termasuk tiket masuk objek wisata (serta makan siang pada paket pilihan sesuai catatan), kecuali paket Tanjung Benoa Water Sports & Uluwatu (tidak termasuk tiket & makan siang). Tarif Net dalam USD tersedia transparan untuk 0–1 pax maupun 2–10 paxs.',
   },
   {
     question: 'Apakah tersedia pilihan makanan vegetarian?',

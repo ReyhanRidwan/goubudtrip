@@ -873,19 +873,54 @@ Mohon konfirmasi ketersediaan jadwal tersebut. Terima kasih!`;
           <aside className="lg:col-span-5 lg:sticky lg:top-24" id="tour-detail-enquiry-card">
             <div className="bg-white border border-stone-200 rounded-xl p-6 md:p-8 shadow-xl shadow-stone-900/10 text-left">
               {/* Price Header */}
-              <div className="space-y-1">
-                <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-stone-600 font-semibold">
-                  <Tag size={14} className="text-gold-600" />
-                  <span>{lang === 'en' ? 'From' : 'Mulai Dari'}</span>
+              <div className="space-y-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-stone-600 font-semibold">
+                    <Tag size={14} className="text-gold-600" />
+                    <span>{lang === 'en' ? 'From' : 'Mulai Dari'}</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-mono text-3xl md:text-4xl font-bold text-gold-700">
+                      {formatPrice(experience.pricePerPerson, currency)}
+                    </span>
+                    <span className="font-sans text-xs text-stone-500">
+                      /orang
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="font-mono text-3xl md:text-4xl font-bold text-gold-700">
-                    {formatPrice(experience.pricePerPerson, currency)}
-                  </span>
-                  <span className="font-sans text-xs text-stone-500">
-                    /orang
-                  </span>
-                </div>
+
+                {experience.discountTiers && experience.discountTiers.length > 0 && (
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    {experience.discountTiers.map((tier, idx) => {
+                      const isTierActive =
+                        guests >= tier.minPersons &&
+                        (guests <= tier.maxPersons ||
+                          (idx === experience.discountTiers!.length - 1 && guests > tier.maxPersons));
+                      const label =
+                        tier.maxPersons <= 1
+                          ? '0–1 Pax'
+                          : `${tier.minPersons}–${tier.maxPersons} Paxs`;
+                      return (
+                        <div
+                          key={idx}
+                          className={`rounded-md border px-3 py-2 transition-colors ${
+                            isTierActive
+                              ? 'bg-gold-50 border-gold-500/60'
+                              : 'bg-[#FAF7F2] border-stone-200'
+                          }`}
+                        >
+                          <span className="block font-mono text-[9px] uppercase tracking-wider text-stone-500 font-semibold">
+                            {label}
+                          </span>
+                          <span className="font-mono text-xs md:text-sm font-bold text-stone-900">
+                            {formatPrice(tier.adultPrice, currency)}
+                            {tier.maxPersons > 1 ? ' /pax' : ''}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               {/* Dashed Divider with Center Plane Icon */}

@@ -1016,8 +1016,8 @@ Halo Tim ${BRAND.name}, saya ingin mengonfirmasi ketersediaan dan pemesanan untu
                       </h5>
                       <p>
                         {lang === 'en'
-                          ? '• Air-conditioned private vehicle, English-speaking driver, chilled water, and listed inclusions apply (attraction entrance tickets are excluded).'
-                          : '• Mobil privat ber-AC, driver berpengalaman, air mineral, dan fasilitas sesuai paket tersedia (tidak termasuk tiket masuk objek wisata).'}
+                          ? '• Air-conditioned private vehicle, English-speaking driver, chilled water, and package-specific entry tickets/lunch inclusions apply.'
+                          : '• Mobil privat ber-AC, driver berpengalaman, air mineral, serta tiket masuk atau makan siang sesuai rincian paket tersedia.'}
                       </p>
                       <p>
                         {lang === 'en'
