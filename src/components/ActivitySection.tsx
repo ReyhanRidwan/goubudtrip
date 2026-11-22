@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Sparkles, MapPin, Clock, ArrowRight, Shield, Star, Award, Waves, Utensils, Mountain, Camera } from 'lucide-react';
 import { getUbudExperiences, formatPrice } from '../data';
 import { useLanguage } from '../i18n';
+import { getPathForRoute } from '../routes';
 import TourImageSlider from './TourImageSlider';
 
 interface ActivitySectionProps {
@@ -296,12 +297,16 @@ export default function ActivitySection({ onBookNow, onViewDetails }: ActivitySe
                   </div>
                   <div className="flex items-center gap-2">
                     {onViewDetails && (
-                      <button
-                        onClick={() => onViewDetails(activity.id)}
-                        className="bg-white border border-stone-300 hover:border-gold-600 text-stone-800 hover:text-gold-700 font-mono text-[10px] uppercase tracking-widest py-3 px-4 rounded-sm transition-all cursor-pointer"
+                      <a
+                        href={getPathForRoute('tour-detail', activity.id)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onViewDetails(activity.id);
+                        }}
+                        className="bg-white border border-stone-300 hover:border-gold-600 text-stone-800 hover:text-gold-700 font-mono text-[10px] uppercase tracking-widest py-3 px-4 rounded-sm transition-all cursor-pointer inline-flex items-center justify-center"
                       >
                         {lang === 'en' ? 'Details' : 'Detail'}
-                      </button>
+                      </a>
                     )}
                     <button
                       onClick={() => onBookNow(activity.id)}

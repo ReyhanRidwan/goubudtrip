@@ -4,6 +4,7 @@ import { Star, Clock, MapPin, ArrowRight, Compass, Search, SlidersHorizontal } f
 import { Experience } from '../types';
 import { getExperiences, formatPrice } from '../data';
 import { useLanguage } from '../i18n';
+import { getPathForRoute } from '../routes';
 import TourImageSlider from './TourImageSlider';
 
 interface TourCatalogProps {
@@ -187,11 +188,17 @@ export default function TourCatalog({ onBookNow, onViewDetails, onCustomizeTour 
                       </span>
                     </div>
 
-                    <h3
-                      onClick={() => onViewDetails(exp.id)}
-                      className="font-serif text-xl text-stone-900 font-medium group-hover:text-gold-700 transition-colors duration-300 cursor-pointer"
-                    >
-                      {exp.title}
+                    <h3 className="font-serif text-xl text-stone-900 font-medium group-hover:text-gold-700 transition-colors duration-300">
+                      <a
+                        href={getPathForRoute('tour-detail', exp.id)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onViewDetails(exp.id);
+                        }}
+                        className="hover:text-gold-700 transition-colors cursor-pointer"
+                      >
+                        {exp.title}
+                      </a>
                     </h3>
 
                     <p className="text-stone-600 text-xs leading-relaxed font-sans line-clamp-3">
@@ -211,12 +218,16 @@ export default function TourCatalog({ onBookNow, onViewDetails, onCustomizeTour 
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 pt-6 mt-6 border-t border-stone-200">
-                    <button
-                      onClick={() => onViewDetails(exp.id)}
-                      className="bg-white border border-stone-300 hover:border-gold-600 text-stone-800 hover:text-gold-700 text-xs uppercase tracking-widest font-mono py-3 rounded-sm transition-all duration-300 cursor-pointer active:scale-95"
+                    <a
+                      href={getPathForRoute('tour-detail', exp.id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onViewDetails(exp.id);
+                      }}
+                      className="bg-white border border-stone-300 hover:border-gold-600 text-stone-800 hover:text-gold-700 text-xs uppercase tracking-widest font-mono py-3 rounded-sm transition-all duration-300 cursor-pointer active:scale-95 flex items-center justify-center"
                     >
                       {lang === 'en' ? 'Route Details' : 'Detail Rute'}
-                    </button>
+                    </a>
                     <button
                       onClick={() => onBookNow(exp.id)}
                       className="bg-gold-600 hover:bg-gold-700 text-white font-bold text-xs uppercase tracking-widest font-mono py-3 rounded-sm transition-all duration-300 shadow-sm cursor-pointer flex items-center justify-center gap-1 active:scale-95"

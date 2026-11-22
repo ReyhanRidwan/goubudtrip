@@ -4,6 +4,7 @@ export type Language = 'en' | 'id';
 
 export const BRAND = {
   name: 'GoUbudTrip',
+  siteUrl: 'https://goubudtrip.com',
   tagline: {
     en: 'Private Bali Ubud Tours & Adventures',
     id: 'Tur Privat & Petualangan Bali Ubud',

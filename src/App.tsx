@@ -24,10 +24,10 @@ import { EXPERIENCES, getHeroExperiences } from './data';
 import { LanguageProvider, useLanguage } from './i18n';
 import {
   AppPage,
-  getDocumentTitle,
   getPathForRoute,
   parsePathname,
 } from './routes';
+import { syncDocumentSeo } from './seo';
 
 function AppContent() {
   const { lang } = useLanguage();
@@ -102,9 +102,9 @@ function AppContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Keep document title synchronized with current page / tour package
+  // Keep document title, canonical URL, meta tags, and Schema.org JSON-LD synchronized
   useEffect(() => {
-    document.title = getDocumentTitle(
+    syncDocumentSeo(
       activePage,
       lang,
       activePage === 'tour-detail' ? selectedDetailExperienceId : undefined
