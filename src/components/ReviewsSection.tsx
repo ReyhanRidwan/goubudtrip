@@ -1,8 +1,33 @@
 import React, { useState } from 'react';
-import { Star, MessageSquare, Check, User, Award, X, ExternalLink, MapPin } from 'lucide-react';
+import { Star, MessageSquare, Check, Award, X, ExternalLink, ShieldCheck } from 'lucide-react';
 import { Review } from '../types';
 import { getInitialReviews, getExperiences } from '../data';
 import { BRAND, useLanguage } from '../i18n';
+
+function GoogleColorLogo({ className = 'w-5 h-5' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <path
+        fill="#4285F4"
+        d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24Z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14Z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96Z"
+      />
+    </svg>
+  );
+}
+
+const BASE_GOOGLE_REVIEWS_TOTAL = 142;
 
 export default function ReviewsSection() {
   const { lang } = useLanguage();
@@ -22,8 +47,10 @@ export default function ReviewsSection() {
   const [formSuccess, setFormSuccess] = useState(false);
 
   const reviews = [...customReviews, ...baseReviews];
-  const totalReviews = reviews.length;
-  const avgRating = Math.round((reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews) * 10) / 10;
+  const totalDisplayedReviews = reviews.length;
+  const totalGoogleReviews = BASE_GOOGLE_REVIEWS_TOTAL + customReviews.length;
+  const avgRating =
+    Math.round((reviews.reduce((sum, r) => sum + r.rating, 0) / totalDisplayedReviews) * 10) / 10;
 
   const filteredReviews = reviews.filter(
     (r) => filterRating === 'all' || r.rating === filterRating
@@ -64,9 +91,6 @@ export default function ReviewsSection() {
   };
 
   const getExpLabel = (expId: string) => {
-    if (expId === 'custom-ubud-day-tour') {
-      return lang === 'en' ? 'Customized Ubud Day Tour' : 'Tur Privat Custom Ubud';
-    }
     const found = experiences.find((e) => e.id === expId);
     return found ? found.title : lang === 'en' ? 'Private Bali Expedition' : 'Ekspedisi Privat Bali';
   };
@@ -78,107 +102,183 @@ export default function ReviewsSection() {
         {/* Review Headers */}
         <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-gold-700 font-semibold">
-            {lang === 'en' ? 'Guest Testimonials' : 'Testimoni Tamu'}
+            {lang === 'en' ? 'Official Google Maps Reviews' : 'Ulasan Resmi Google Maps'}
           </p>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-stone-900 font-medium tracking-wide">
             {lang === 'en' ? 'Shared Chronicles of Splendor' : 'Cerita Perjalanan Tamu Kami'}
           </h2>
           <p className="font-sans text-sm md:text-base text-stone-600 leading-relaxed font-light">
             {lang === 'en'
-              ? 'Read verified reviews from international travelers, honeymooners, and families who explored the heart of Bali Ubud with GoUbudTrip.'
-              : 'Baca ulasan terverifikasi dari wisatawan internasional, pasangan bulan madu, dan keluarga yang menjelajahi keindahan Bali Ubud bersama GoUbudTrip.'}
+              ? 'Read official Google Maps reviews from international travelers who explored the heart of Bali Ubud with Ketut Ajus & GoUbudTrip.'
+              : 'Baca ulasan resmi dari Google Maps oleh wisatawan internasional yang menjelajahi Bali Ubud bersama Ketut Ajus & GoUbudTrip.'}
           </p>
         </div>
 
-        {/* Testimonials aggregate statistics and interactive controls */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12 items-center">
-          
-          <div className="lg:col-span-4 bg-white border border-stone-200 p-6 rounded-xl text-center lg:text-left flex flex-col md:flex-row lg:flex-col items-center justify-around gap-6 shadow-sm">
-            <div className="space-y-2">
-              <span className="font-mono text-[9px] uppercase tracking-widest text-stone-500 block font-semibold">
-                {lang === 'en' ? 'Average guest score' : 'Skor rata-rata tamu'}
-              </span>
-              <div className="flex items-baseline justify-center lg:justify-start space-x-2">
-                <span className="font-serif text-5xl font-bold text-gold-700">
-                  {avgRating}
-                </span>
-                <span className="text-stone-500 text-lg">/ 5.0</span>
-              </div>
-              <div className="flex justify-center lg:justify-start items-center space-x-1.5 text-gold-500 mt-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={16}
-                    className={i < Math.round(avgRating) ? 'fill-gold-500 text-gold-500' : 'text-stone-300'}
-                  />
-                ))}
-              </div>
-              <span className="font-mono text-[10px] text-stone-500 block pt-1">
-                {lang === 'en'
-                  ? `Based on ${totalReviews} Google Maps reviews`
-                  : `Berdasarkan ${totalReviews} ulasan Google Maps`}
-              </span>
-              <a
-                href={BRAND.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold text-emerald-700 hover:text-emerald-800 pt-1 transition-colors"
-              >
-                <MapPin size={12} />
-                <span>{lang === 'en' ? 'View on Google Maps' : 'Lihat di Google Maps'}</span>
-                <ExternalLink size={11} />
-              </a>
+        {/* Official Google Reviews Summary Card + Filter Controls */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12 items-stretch">
+
+          {/* Official Google Business Review Card */}
+          <div className="lg:col-span-5 bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between">
+            {/* Subtle Google 4-color top bar */}
+            <div className="h-1 w-full grid grid-cols-4">
+              <div className="bg-[#4285F4]" />
+              <div className="bg-[#EA4335]" />
+              <div className="bg-[#FBBC05]" />
+              <div className="bg-[#34A853]" />
             </div>
 
-            {!isFormOpen && (
-              <button
-                onClick={() => setIsFormOpen(true)}
-                id="btn-trigger-review-form"
-                className="bg-gold-600 hover:bg-gold-700 text-white px-6 py-3.5 text-xs uppercase tracking-wider font-bold font-mono transition-colors rounded-sm cursor-pointer shadow-sm"
-              >
-                {lang === 'en' ? 'Share Your Experience' : 'Tulis Ulasan Anda'}
-              </button>
-            )}
+            <div className="p-6 flex flex-col justify-between flex-1 gap-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-lg bg-[#FAF7F2] border border-stone-200 flex items-center justify-center shrink-0">
+                    <GoogleColorLogo className="w-6 h-6" />
+                  </div>
+                  <div className="text-left">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-sans text-sm font-bold text-stone-900 tracking-tight">
+                        Google Reviews
+                      </span>
+                      <ShieldCheck size={14} className="text-[#4285F4]" />
+                    </div>
+                    <p className="font-sans text-xs text-stone-500">
+                      {BRAND.name} · Ubud, Bali
+                    </p>
+                  </div>
+                </div>
+
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-sm bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono text-[9px] uppercase tracking-wider font-semibold shrink-0">
+                  {lang === 'en' ? 'Verified' : 'Resmi'}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between gap-4 bg-[#FAF7F2] border border-stone-200/80 rounded-lg px-4 py-3.5">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-serif text-4xl font-bold text-stone-900">
+                    {avgRating.toFixed(1)}
+                  </span>
+                  <span className="font-mono text-xs text-stone-500">/ 5.0</span>
+                </div>
+
+                <div className="text-right">
+                  <div className="flex items-center justify-end space-x-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        size={15}
+                        className={
+                          i < Math.round(avgRating)
+                            ? 'fill-[#FBBC05] text-[#FBBC05]'
+                            : 'text-stone-300'
+                        }
+                      />
+                    ))}
+                  </div>
+                  <p className="font-mono text-[11px] text-stone-600 font-semibold mt-1">
+                    {lang === 'en'
+                      ? `Based on ${totalGoogleReviews} reviews`
+                      : `Berdasarkan ${totalGoogleReviews} ulasan`}
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a
+                  href={BRAND.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-stone-50 border border-stone-300 hover:border-stone-400 text-stone-800 px-4 py-3 text-[11px] uppercase tracking-wider font-bold font-mono transition-colors rounded-sm shadow-xs"
+                >
+                  <GoogleColorLogo className="w-4 h-4 shrink-0" />
+                  <span>{lang === 'en' ? 'View on Google' : 'Lihat di Google'}</span>
+                  <ExternalLink size={12} className="text-stone-500" />
+                </a>
+
+                {!isFormOpen && (
+                  <button
+                    onClick={() => setIsFormOpen(true)}
+                    id="btn-trigger-review-form"
+                    className="bg-gold-600 hover:bg-gold-700 text-white px-4 py-3 text-[11px] uppercase tracking-wider font-bold font-mono transition-colors rounded-sm cursor-pointer shadow-sm"
+                  >
+                    {lang === 'en' ? 'Share Experience' : 'Tulis Ulasan'}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
-          <div className="lg:col-span-8 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 border border-stone-200 rounded-xl shadow-sm">
-            <div className="text-left">
-              <h4 className="font-serif text-base text-stone-900 font-semibold">
-                {lang === 'en' ? 'Filter Guest Reviews' : 'Filter Ulasan Tamu'}
-              </h4>
-              <p className="font-sans text-xs text-stone-600 mt-1">
-                {lang === 'en' ? 'Show testimonials based on star ratings.' : 'Tampilkan testimoni berdasarkan rating bintang.'}
-              </p>
+          {/* Filter & Google Maps Highlights Card */}
+          <div className="lg:col-span-7 bg-white p-6 border border-stone-200 rounded-xl shadow-sm flex flex-col justify-between gap-5 text-left">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-4">
+              <div>
+                <h4 className="font-serif text-lg text-stone-900 font-semibold">
+                  {lang === 'en' ? 'Featured Google Maps Testimonials' : 'Testimoni Pilihan Google Maps'}
+                </h4>
+                <p className="font-sans text-xs text-stone-600 mt-1">
+                  {lang === 'en'
+                    ? `Showing ${filteredReviews.length} featured stories from ${totalGoogleReviews} verified Google Maps reviews.`
+                    : `Menampilkan ${filteredReviews.length} ulasan pilihan dari total ${totalGoogleReviews} ulasan resmi Google Maps.`}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-stone-500 shrink-0">
+                <GoogleColorLogo className="w-4 h-4" />
+                <span className="font-mono text-[10px] uppercase tracking-wider font-semibold">
+                  Google Maps
+                </span>
+              </div>
             </div>
-            
-            <div className="flex flex-wrap gap-2" id="review-filters">
-              <button
-                onClick={() => setFilterRating('all')}
-                className={`py-1.5 px-3.5 text-[10px] uppercase font-mono tracking-wider font-semibold border rounded-sm transition-all cursor-pointer ${
-                  filterRating === 'all'
-                    ? 'bg-gold-600 border-gold-600 text-white font-bold'
-                    : 'bg-[#FAF7F2] border-stone-300 text-stone-700 hover:border-gold-600'
-                }`}
-              >
-                {lang === 'en' ? 'All Ratings' : 'Semua Rating'} ({reviews.length})
-              </button>
-              {[5, 4, 3].map((star) => {
-                const count = reviews.filter((r) => r.rating === star).length;
-                return (
-                  <button
-                    key={star}
-                    onClick={() => setFilterRating(star)}
-                    className={`py-1.5 px-3.5 text-[10px] uppercase font-mono tracking-wider font-semibold border rounded-sm transition-all flex items-center space-x-1 cursor-pointer ${
-                      filterRating === star
-                        ? 'bg-gold-600 border-gold-600 text-white font-bold'
-                        : 'bg-[#FAF7F2] border-stone-300 text-stone-700 hover:border-gold-600'
-                    }`}
-                  >
-                    <span>{star} {lang === 'en' ? 'Stars' : 'Bintang'}</span>
-                    <span className="opacity-70">({count})</span>
-                  </button>
-                );
-              })}
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-stone-500 font-semibold">
+                {lang === 'en' ? 'Filter by Star Rating' : 'Filter Rating Bintang'}
+              </span>
+
+              <div className="flex flex-wrap gap-2" id="review-filters">
+                <button
+                  onClick={() => setFilterRating('all')}
+                  className={`py-1.5 px-3.5 text-[10px] uppercase font-mono tracking-wider font-semibold border rounded-sm transition-all cursor-pointer ${
+                    filterRating === 'all'
+                      ? 'bg-gold-600 border-gold-600 text-white font-bold'
+                      : 'bg-[#FAF7F2] border-stone-300 text-stone-700 hover:border-gold-600'
+                  }`}
+                >
+                  {lang === 'en' ? 'All Ratings' : 'Semua Rating'} ({reviews.length})
+                </button>
+                {[5, 4, 3].map((star) => {
+                  const count = reviews.filter((r) => r.rating === star).length;
+                  return (
+                    <button
+                      key={star}
+                      onClick={() => setFilterRating(star)}
+                      className={`py-1.5 px-3.5 text-[10px] uppercase font-mono tracking-wider font-semibold border rounded-sm transition-all flex items-center space-x-1 cursor-pointer ${
+                        filterRating === star
+                          ? 'bg-gold-600 border-gold-600 text-white font-bold'
+                          : 'bg-[#FAF7F2] border-stone-300 text-stone-700 hover:border-gold-600'
+                      }`}
+                    >
+                      <span>{star} {lang === 'en' ? 'Stars' : 'Bintang'}</span>
+                      <span className="opacity-70">({count})</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 border-t border-stone-100">
+              {(lang === 'en'
+                ? ['Custom Ubud Routes', 'Fluent English Guide', 'Balinese Culture Expert', 'Safe Private Driver']
+                : ['Rute Ubud Kustom', 'Driver Fasih Inggris', 'Ahli Budaya Bali', 'Mobil Privat Nyaman']
+              ).map((tag) => (
+                <div
+                  key={tag}
+                  className="flex items-center gap-1.5 bg-[#FAF7F2] border border-stone-200/80 rounded-sm px-2.5 py-2"
+                >
+                  <Check size={12} className="text-emerald-600 shrink-0" />
+                  <span className="font-sans text-[11px] text-stone-700 font-medium truncate">
+                    {tag}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -330,18 +430,28 @@ export default function ReviewsSection() {
               className="bg-white border border-stone-200 hover:border-gold-500/60 transition-all p-6 rounded-xl text-left flex flex-col justify-between shadow-sm"
             >
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gold-50 border border-gold-500/30 rounded-full flex items-center justify-center">
-                      <User size={16} className="text-gold-700" />
+                    <div className="relative w-10 h-10 bg-gold-50 border border-gold-500/30 rounded-full flex items-center justify-center shrink-0">
+                      <span className="font-serif text-sm font-bold text-gold-800 uppercase">
+                        {r.name.trim().charAt(0)}
+                      </span>
+                      {r.source === 'Google Maps' && (
+                        <span
+                          className="absolute -bottom-1 -right-1 w-4.5 h-4.5 rounded-full bg-white border border-stone-200 flex items-center justify-center shadow-xs"
+                          title="Google Review"
+                        >
+                          <GoogleColorLogo className="w-3 h-3" />
+                        </span>
+                      )}
                     </div>
                     <div>
                       <h4 className="font-serif text-sm font-semibold text-stone-900">
                         {r.name}
                       </h4>
-                      {r.badgeLabel && (
-                        <p className="font-mono text-[10px] text-stone-500 mt-0.5">
-                          {r.badgeLabel}
+                      {r.reviewerMeta && (
+                        <p className="font-sans text-[11px] text-stone-500 mt-0.5">
+                          {r.reviewerMeta}
                         </p>
                       )}
                       <p className="font-mono text-[9px] text-gold-700 tracking-wider uppercase mt-0.5 font-semibold">
@@ -351,12 +461,16 @@ export default function ReviewsSection() {
                   </div>
 
                   <div className="text-right shrink-0">
-                    <div className="flex items-center space-x-1 text-gold-500 justify-end">
+                    <div className="flex items-center space-x-0.5 justify-end">
                       {[...Array(5)].map((_, idx) => (
                         <Star
                           key={idx}
                           size={12}
-                          className={idx < r.rating ? 'fill-gold-500 text-gold-500' : 'text-stone-300'}
+                          className={
+                            idx < r.rating
+                              ? 'fill-[#FBBC05] text-[#FBBC05]'
+                              : 'text-stone-300'
+                          }
                         />
                       ))}
                     </div>
@@ -377,25 +491,33 @@ export default function ReviewsSection() {
               </div>
 
               {r.verified && (
-                <div className="flex items-center justify-between pt-4 border-t border-stone-200 mt-4">
-                  {r.source === 'google' ? (
+                <div className="flex items-center justify-between gap-2 text-[9px] uppercase tracking-wider font-mono text-stone-600 font-semibold pt-4 border-t border-stone-200 mt-4">
+                  <div className="flex items-center space-x-1.5">
+                    {r.source === 'Google Maps' ? (
+                      <GoogleColorLogo className="w-3.5 h-3.5 shrink-0" />
+                    ) : (
+                      <Award size={12} className="text-emerald-700 stroke-[2.5]" />
+                    )}
+                    <span className={r.source === 'Google Maps' ? 'text-stone-700' : 'text-emerald-700'}>
+                      {r.source === 'Google Maps'
+                        ? lang === 'en'
+                          ? 'Posted on Google'
+                          : 'Ulasan Resmi Google'
+                        : lang === 'en'
+                        ? 'Verified GoUbudTrip Booking'
+                        : 'Pemesanan Terverifikasi GoUbudTrip'}
+                    </span>
+                  </div>
+                  {r.source === 'Google Maps' && (
                     <a
                       href={BRAND.googleMapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-1.5 text-[10px] uppercase tracking-wider font-mono text-emerald-700 hover:text-emerald-800 font-semibold transition-colors"
+                      className="inline-flex items-center space-x-1 text-[#4285F4] hover:text-gold-700 transition-colors"
                     >
-                      <MapPin size={11} className="stroke-[2.5]" />
-                      <span>
-                        {lang === 'en' ? 'Verified Google Maps Review' : 'Ulasan Asli Google Maps'}
-                      </span>
+                      <span>Google Maps</span>
                       <ExternalLink size={10} />
                     </a>
-                  ) : (
-                    <div className="flex items-center space-x-1 text-[9px] uppercase tracking-wider font-mono text-emerald-700 font-semibold">
-                      <Award size={10} className="stroke-[3]" />
-                      <span>{lang === 'en' ? 'Verified GoUbudTrip Booking' : 'Pemesanan Terverifikasi GoUbudTrip'}</span>
-                    </div>
                   )}
                 </div>
               )}

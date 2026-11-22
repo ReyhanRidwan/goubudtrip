@@ -44,7 +44,7 @@ function AppContent() {
   );
   const [submittedBooking, setSubmittedBooking] = useState<SubmittedBooking | null>(null);
 
-  // Navigate to a named route (/, /paket-tour, /<tour-slug>, etc.) with History API sync
+  // Navigate to a named route (/home, /paket-tour, /<tour-slug>, etc.) with History API sync
   const navigateTo = useCallback(
     (page: AppPage, experienceId?: string, replace = false) => {
       if (experienceId) {
@@ -74,11 +74,11 @@ function AppContent() {
     [selectedDetailExperienceId]
   );
 
-  // Sync route URL on initial load (e.g. /home -> /) and listen for browser Back/Forward buttons
+  // Sync root "/" -> "/home" on initial load and listen for browser Back/Forward buttons
   useEffect(() => {
     try {
       const normalizedPath = getPathForRoute(initialRoute.page, initialRoute.experienceId);
-      if (window.location.pathname !== normalizedPath) {
+      if (window.location.pathname === '/' || window.location.pathname !== normalizedPath) {
         window.history.replaceState(
           { page: initialRoute.page, experienceId: initialRoute.experienceId },
           '',

@@ -109,8 +109,8 @@ export interface Review {
   rating: number;
   date: string;
   relativeDate?: string;
-  badgeLabel?: string;
-  source?: 'google' | 'direct';
+  reviewerMeta?: string;
+  source?: 'Google Maps' | 'GoUbudTrip';
   comment: string;
   experienceId: string;
   avatarUrl?: string;
