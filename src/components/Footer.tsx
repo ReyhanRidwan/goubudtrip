@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Compass, Globe, Send, Sun, CloudRain, Check, MapPin, Phone } from 'lucide-react';
 import { BRAND, useLanguage } from '../i18n';
+import SocialChannels from './SocialChannels';
 
 export default function Footer() {
   const { lang } = useLanguage();
@@ -86,6 +87,8 @@ export default function Footer() {
                 : 'Pariwisata Mewah Berkelanjutan Resmi'}
             </span>
           </div>
+
+          <SocialChannels variant="compact" />
         </div>
 
         {/* Contact Coordinates Column */}
@@ -96,7 +99,15 @@ export default function Footer() {
           <ul className="space-y-3 text-xs md:text-sm text-stone-700 font-normal">
             <li className="flex items-start space-x-2.5">
               <MapPin size={14} className="text-gold-700 mt-0.5 flex-shrink-0" />
-              <span>{BRAND.address}</span>
+              <a
+                href={BRAND.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-gold-700 transition-colors"
+                title={lang === 'en' ? 'Open on Google Maps' : 'Buka di Google Maps'}
+              >
+                {BRAND.address}
+              </a>
             </li>
             <li className="flex items-center space-x-2.5">
               <Phone size={14} className="text-gold-700 flex-shrink-0" />

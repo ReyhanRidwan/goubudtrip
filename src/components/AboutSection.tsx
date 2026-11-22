@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Compass, Heart } from 'lucide-react';
 import { BRAND, useLanguage } from '../i18n';
+import SocialChannels from './SocialChannels';
 
 export default function AboutSection() {
   const { lang } = useLanguage();
@@ -145,6 +146,29 @@ export default function AboutSection() {
               </p>
             </div>
           ))}
+        </div>
+
+        {/* TripAdvisor & Official Social Channels */}
+        <div
+          id="about-social-channels"
+          className="mt-16 pt-14 border-t border-stone-200 space-y-8 text-left"
+        >
+          <div className="max-w-2xl space-y-2">
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-gold-700 font-bold">
+              {lang === 'en' ? 'Reviews & Community' : 'Ulasan & Komunitas'}
+            </span>
+            <h2 className="font-serif text-2xl md:text-3xl text-stone-900 font-medium tracking-wide">
+              {lang === 'en'
+                ? 'Trusted on TripAdvisor & Official Socials'
+                : 'Dipercaya di TripAdvisor & Media Sosial Resmi'}
+            </h2>
+            <p className="text-stone-600 text-xs md:text-sm leading-relaxed">
+              {lang === 'en'
+                ? 'Read real guest stories on TripAdvisor or follow our daily private Bali journeys on Instagram, TikTok, and Facebook.'
+                : 'Baca ulasan tamu asli kami di TripAdvisor atau ikuti dokumentasi perjalanan harian Bali di Instagram, TikTok, dan Facebook.'}
+            </p>
+          </div>
+          <SocialChannels variant="cards" />
         </div>
 
       </div>

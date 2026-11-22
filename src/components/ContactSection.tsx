@@ -90,6 +90,19 @@ export default function ContactSection() {
                     <p className="text-stone-600 text-xs md:text-sm leading-relaxed mt-1">
                       {BRAND.address}
                     </p>
+                    <a
+                      href={BRAND.googleMapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-emerald-700 hover:text-emerald-800 mt-2 transition-colors"
+                    >
+                      <span>
+                        {lang === 'en'
+                          ? 'Open Google Business Profile'
+                          : 'Buka Google Business Profile'}
+                      </span>
+                      <ExternalLink size={12} />
+                    </a>
                   </div>
                 </div>
 
@@ -126,19 +139,31 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              {/* Decorative Map Frame */}
-              <div className="border border-stone-200 rounded-md overflow-hidden relative h-48 bg-[#F3EDE2]">
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#FAF7F2]/90 via-[#F3EDE2]/50 to-transparent z-10" />
+              {/* Google Maps / Business Profile Card */}
+              <a
+                href={BRAND.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block border border-stone-200 hover:border-gold-600 rounded-md overflow-hidden relative h-48 bg-[#F3EDE2] group transition-all shadow-xs hover:shadow-md"
+              >
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#FAF7F2]/95 via-[#F3EDE2]/60 to-transparent z-10" />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4 z-20 space-y-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-gold-600 animate-ping absolute top-14" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-gold-600 absolute top-14" />
-                  <p className="font-serif text-sm text-stone-900 font-semibold">{BRAND.name} Ubud Desk</p>
+                  <span className="w-2.5 h-2.5 rounded-full bg-gold-600 animate-ping absolute top-11" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-gold-600 absolute top-11" />
+                  <p className="font-serif text-sm text-stone-900 font-semibold pt-4">
+                    {BRAND.name} — Google Business Profile
+                  </p>
                   <p className="font-sans text-[11px] text-stone-600">
                     {lang === 'en' ? 'Ubud, Gianyar — Bali, Indonesia' : 'Koordinat Resmi Ubud, Gianyar, Bali'}
                   </p>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-stone-300 group-hover:border-gold-600 text-[11px] font-mono font-semibold text-stone-800 group-hover:text-gold-700 transition-colors shadow-xs">
+                    <MapPin size={12} className="text-gold-600" />
+                    <span>{lang === 'en' ? 'View on Google Maps' : 'Buka di Google Maps'}</span>
+                    <ExternalLink size={11} />
+                  </span>
                 </div>
                 <div className="w-full h-full opacity-25 bg-[linear-gradient(to_right,#b48035_1px,transparent_1px),linear-gradient(to_bottom,#b48035_1px,transparent_1px)] bg-[size:14px_14px]" />
-              </div>
+              </a>
             </div>
           </div>
 

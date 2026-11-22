@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Compass, HeartHandshake, Landmark } from 'lucide-react';
-import { useLanguage } from '../i18n';
+import { ArrowRight, Compass, ExternalLink, HeartHandshake, Landmark } from 'lucide-react';
+import { BRAND, useLanguage } from '../i18n';
 
 interface CuratedPhotoItem {
   id: string;
@@ -149,6 +149,40 @@ export default function DestinationGrid({ onLearnMoreAbout }: DestinationGridPro
                   className="text-gold-700 group-hover:text-white group-hover:translate-x-1 transition-all"
                 />
               </button>
+            </div>
+
+            <div className="pt-1">
+              <a
+                href={BRAND.socials.tripadvisor}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={
+                  lang === 'en'
+                    ? 'Read our verified reviews on TripAdvisor'
+                    : 'Baca ulasan terverifikasi kami di TripAdvisor'
+                }
+                className="inline-flex items-center gap-3.5 p-2.5 pr-4 rounded-xl bg-white border border-stone-200 hover:border-emerald-500 shadow-xs hover:shadow-md transition-all duration-300 group"
+              >
+                <img
+                  src="https://res.cloudinary.com/di6ziqvtp/image/upload/v1795319999/cb17c282-88a1-4826-b332-ba39c86b1a92.png"
+                  alt="TripAdvisor - Go Ubud Trip"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                  className="h-14 w-auto max-w-[220px] object-contain rounded-lg"
+                />
+                <div className="text-left border-l border-stone-200 pl-3.5">
+                  <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-700 font-bold">
+                    TripAdvisor
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold text-stone-800 group-hover:text-emerald-700 transition-colors mt-0.5">
+                    <span>{lang === 'en' ? 'Read Traveler Reviews' : 'Lihat Ulasan Tamu'}</span>
+                    <ExternalLink
+                      size={12}
+                      className="text-stone-400 group-hover:text-emerald-700 transition-colors"
+                    />
+                  </span>
+                </div>
+              </a>
             </div>
           </motion.div>
 

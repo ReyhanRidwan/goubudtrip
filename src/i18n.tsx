@@ -13,6 +13,15 @@ export const BRAND = {
   whatsappNumber: '6287761022499',
   email: 'goubudtrip@gmail.com',
   address: 'Jalan Raya Ubud No. 88, Gianyar, Bali 80571, Indonesia',
+  googleMapsUrl: 'https://maps.app.goo.gl/qPP5P2DarQgQwCHa9',
+  socials: {
+    tripadvisor:
+      'https://www.tripadvisor.com/Attraction_Review-g297701-d10440294-Reviews-Ubud_Bali_Day_Tour-Ubud_Gianyar_Regency_Bali.html',
+    googleMaps: 'https://maps.app.goo.gl/qPP5P2DarQgQwCHa9',
+    tiktok: 'https://www.tiktok.com/@ubudbalidaytour?_r=1&_t=ZG-9BbiXSqyYhE',
+    instagram: 'https://www.instagram.com/ubudbalidaytour/?igshid=xg00eq4i0bqw',
+    facebook: 'https://www.facebook.com/ubudbalidaytour/',
+  },
 };
 
 interface LanguageContextValue {
